@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://k3works.jp/sitemap.xml
