@@ -11,7 +11,7 @@ body {
   background: #111;
   color: #fff;
   min-height: 100vh;
-  padding-bottom: 32px;
+  padding-bottom: 40px;
 }
 
 /* モード切替 */
@@ -32,28 +32,48 @@ body {
   background: #1a1a1a;
   color: #888;
   cursor: pointer;
-  transition: all 0.2s;
 }
-.mode button.active {
-  background: #00c853;
-  color: #000;
-}
+.mode button.active { background: #00c853; color: #000; }
 
-/* OK/NG判定 */
+/* タブ */
+.tab-bar {
+  display: flex;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+.tab-bar button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab-bar button.active { color: #00c853; border-bottom-color: #00c853; }
+
+/* ページ */
+.page { display: none; }
+.page.show { display: block; }
+
+/* 判定バナー */
 #judge {
   text-align: center;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  padding: 18px;
-  letter-spacing: 0.05em;
+  padding: 16px;
   transition: background 0.3s;
+  letter-spacing: 0.04em;
 }
-.ok { background: #00c853; color: #000; }
-.ng { background: #d50000; color: #fff; }
-.neutral { background: #333; color: #aaa; }
+.go      { background: #00c853; color: #000; }
+.warn    { background: #ffb300; color: #000; }
+.ng      { background: #d50000; color: #fff; }
+.neutral { background: #2a2a2a; color: #888; }
 
 /* コンテナ */
-.container { padding: 16px; }
+.container { padding: 14px; }
 
 /* セクション */
 .section {
@@ -65,16 +85,16 @@ body {
 .section-title {
   font-size: 11px;
   font-weight: 700;
-  color: #888;
+  color: #666;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
 /* 入力 */
-input[type="number"], select {
+input[type="number"], input[type="text"], select {
   width: 100%;
-  padding: 13px 14px;
+  padding: 12px 14px;
   font-size: 16px;
   border-radius: 8px;
   border: 1.5px solid #333;
@@ -84,13 +104,11 @@ input[type="number"], select {
   -webkit-appearance: none;
   transition: border-color 0.2s;
 }
-input[type="number"]:focus, select:focus {
-  border-color: #00c853;
-}
-input[type="number"]::placeholder { color: #555; }
+input:focus, select:focus { border-color: #00c853; }
+input::placeholder { color: #555; }
 select option { background: #2a2a2a; }
 
-/* 原価リスト */
+/* 原価 */
 .cost-row {
   display: flex;
   align-items: center;
@@ -98,14 +116,13 @@ select option { background: #2a2a2a; }
   margin-bottom: 8px;
 }
 .cost-row input { flex: 1; }
-.cost-unit { color: #888; font-size: 14px; min-width: 18px; }
+.cost-unit { color: #666; font-size: 13px; min-width: 16px; flex-shrink: 0; }
 .btn-del {
-  background: #3a1a1a;
+  background: #2a1a1a;
   color: #ff5252;
   border: none;
   border-radius: 6px;
-  width: 34px;
-  height: 44px;
+  width: 34px; height: 44px;
   font-size: 18px;
   cursor: pointer;
   flex-shrink: 0;
@@ -128,8 +145,8 @@ select option { background: #2a2a2a; }
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #333;
-  font-size: 14px;
-  color: #aaa;
+  font-size: 13px;
+  color: #888;
 }
 .cost-total span:last-child { color: #fff; font-weight: 700; }
 
@@ -141,14 +158,9 @@ select option { background: #2a2a2a; }
   margin-bottom: 10px;
 }
 .field-row:last-child { margin-bottom: 0; }
-.field-row input, .field-row select { flex: 1; margin-bottom: 0; }
-.field-label {
-  font-size: 13px;
-  color: #888;
-  min-width: 72px;
-  flex-shrink: 0;
-}
-.field-unit { color: #888; font-size: 14px; flex-shrink: 0; }
+.field-row input, .field-row select { flex: 1; }
+.field-label { font-size: 13px; color: #888; min-width: 68px; flex-shrink: 0; }
+.field-unit { color: #666; font-size: 13px; flex-shrink: 0; }
 
 /* プラットフォーム */
 .platform-grid {
@@ -157,28 +169,23 @@ select option { background: #2a2a2a; }
   gap: 8px;
 }
 .platform-btn {
-  padding: 12px;
+  padding: 11px;
   border: 1.5px solid #333;
   border-radius: 8px;
   background: #2a2a2a;
-  color: #aaa;
-  font-size: 14px;
+  color: #888;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
-  transition: all 0.15s;
+  line-height: 1.5;
 }
 .platform-btn.active {
   border-color: #00c853;
-  background: #0a2a12;
+  background: #0a2a14;
   color: #00c853;
 }
-.fee-note {
-  font-size: 12px;
-  color: #666;
-  margin-top: 8px;
-  text-align: center;
-}
+.fee-note { font-size: 12px; color: #666; margin-top: 8px; text-align: center; }
 
 /* 結果 */
 .result-grid {
@@ -193,14 +200,11 @@ select option { background: #2a2a2a; }
   padding: 14px;
   text-align: center;
 }
-.result-box .label { font-size: 12px; color: #888; margin-bottom: 6px; }
-.result-box .value {
-  font-size: 22px;
-  font-weight: 800;
-}
-.value.pos { color: #00c853; }
-.value.neg { color: #ff5252; }
-.value.neutral { color: #888; }
+.result-box .label { font-size: 12px; color: #666; margin-bottom: 6px; }
+.result-box .value { font-size: 22px; font-weight: 800; }
+.pos { color: #00c853; }
+.neg { color: #ff5252; }
+.neu { color: #888; }
 
 /* 内訳 */
 .breakdown {
@@ -214,18 +218,18 @@ select option { background: #2a2a2a; }
   justify-content: space-between;
   font-size: 13px;
   padding: 5px 0;
-  color: #aaa;
+  color: #888;
   border-bottom: 1px solid #2a2a2a;
 }
-.brk-row:last-child { border-bottom: none; }
+.brk-row:last-child { border: none; }
 .brk-row.total {
   color: #fff;
   font-weight: 700;
   font-size: 14px;
-  margin-top: 4px;
   padding-top: 8px;
   border-top: 1px solid #444;
   border-bottom: none;
+  margin-top: 4px;
 }
 
 /* 詳細設定 */
@@ -243,22 +247,105 @@ summary {
   list-style: none;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 summary::after { content: '▼'; font-size: 11px; }
 details[open] summary::after { content: '▲'; }
 .detail-body { padding: 0 14px 14px; }
 
-/* リセット */
+/* 保存ボタン */
+.btn-save {
+  width: 100%;
+  padding: 15px;
+  background: #00c853;
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
 .btn-reset {
   width: 100%;
-  padding: 12px;
+  padding: 11px;
   background: #2a2a2a;
   border: none;
   border-radius: 8px;
-  color: #888;
+  color: #666;
   font-size: 14px;
   cursor: pointer;
+}
+
+/* 履歴ページ */
+.hist-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.hist-toolbar button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-csv { background: #1a3a2a; color: #00c853; border: 1px solid #00c853; }
+.btn-clear { background: #2a1a1a; color: #ff5252; border: 1px solid #ff5252; }
+
+.hist-item {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.hist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.hist-date { font-size: 12px; color: #666; }
+.hist-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+.hist-badge.ok   { background: #0a2a14; color: #00c853; }
+.hist-badge.warn { background: #2a1e00; color: #ffb300; }
+.hist-badge.ng   { background: #2a0a0a; color: #ff5252; }
+.hist-name input {
+  font-size: 14px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-color: #333;
+}
+.hist-figures {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #888;
+}
+.hist-figures span { color: #fff; }
+.hist-profit { font-size: 16px; font-weight: 700; }
+.hist-del {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+}
+.hist-empty {
+  text-align: center;
+  color: #555;
+  padding: 40px 0;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -266,148 +353,208 @@ details[open] summary::after { content: '▲'; }
 
 <!-- モード切替 -->
 <div class="mode">
-  <button class="active" onclick="setMode('book', this)">📚 本・CD・ゲーム</button>
-  <button onclick="setMode('goods', this)">📦 家電・雑貨</button>
+  <button class="active" onclick="setMode('book',this)">📚 本・CD・ゲーム</button>
+  <button onclick="setMode('goods',this)">📦 家電・雑貨</button>
 </div>
 
-<!-- OK/NG判定 -->
-<div id="judge" class="neutral">― 入力してください ―</div>
+<!-- タブ -->
+<div class="tab-bar">
+  <button class="active" onclick="showTab('calc',this)">計算</button>
+  <button onclick="showTab('hist',this)">履歴</button>
+</div>
 
-<div class="container">
+<!-- 計算タブ -->
+<div id="tab-calc" class="page show">
 
-  <!-- プラットフォーム -->
-  <div class="section">
-    <div class="section-title">販売プラットフォーム</div>
-    <div class="platform-grid">
-      <div class="platform-btn" onclick="setPlatform('amazon', this)">Amazon<br><small>10%</small></div>
-      <div class="platform-btn active" onclick="setPlatform('mercari', this)">メルカリ<br><small>10%</small></div>
-      <div class="platform-btn" onclick="setPlatform('yahoo', this)">ヤフオク<br><small>10%</small></div>
-      <div class="platform-btn" onclick="setPlatform('rakuma', this)">ラクマ<br><small>6%</small></div>
+  <div id="judge" class="neutral">― 入力してください ―</div>
+
+  <div class="container">
+
+    <!-- プラットフォーム -->
+    <div class="section">
+      <div class="section-title">販売プラットフォーム</div>
+      <div class="platform-grid">
+        <div class="platform-btn" onclick="setPlatform('amazon',this)">Amazon<br><small>10%</small></div>
+        <div class="platform-btn active" onclick="setPlatform('mercari',this)">メルカリ<br><small>10%</small></div>
+        <div class="platform-btn" onclick="setPlatform('yahoo',this)">ヤフオク<br><small>10%</small></div>
+        <div class="platform-btn" onclick="setPlatform('rakuma',this)">ラクマ<br><small>6%</small></div>
+      </div>
+      <div class="fee-note" id="feeNote">手数料：10%（メルカリ）</div>
     </div>
-    <div class="fee-note" id="feeNote">手数料：10%（メルカリ）</div>
-  </div>
 
-  <!-- 原価 -->
-  <div class="section">
-    <div class="section-title">仕入れ原価</div>
-    <div id="costList">
-      <div class="cost-row">
-        <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
-        <span class="cost-unit">円</span>
+    <!-- 原価 -->
+    <div class="section">
+      <div class="section-title">仕入れ原価</div>
+      <div id="costList">
+        <div class="cost-row">
+          <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
+          <span class="cost-unit">円</span>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addCostRow()">＋ まとめ買い追加</button>
+      <div class="cost-total">
+        <span>仕入れ合計</span>
+        <span id="totalCost">0 円</span>
       </div>
     </div>
-    <button class="btn-add" onclick="addCostRow()">＋ まとめ買い追加</button>
-    <div class="cost-total">
-      <span>仕入れ合計</span>
-      <span id="totalCost">0 円</span>
-    </div>
-  </div>
 
-  <!-- 販売・配送 -->
-  <div class="section">
-    <div class="section-title">販売情報</div>
-    <div class="field-row">
-      <span class="field-label">販売価格</span>
-      <input type="number" id="sellPrice" placeholder="例: 1500" min="0" inputmode="numeric" oninput="calc()">
-      <span class="field-unit">円</span>
-    </div>
-    <div class="field-row">
-      <span class="field-label">配送料</span>
-      <select id="shippingSelect" onchange="handleShipping()">
-        <option value="0">なし（0円）</option>
-        <option value="180">180円（ゆうパケットポストmini ※封筒込）</option>
-        <option value="210" selected>210円（ゆうパケットポスト）</option>
-        <option value="230">230円（ゆうゆう ゆうパケット）</option>
-        <option value="520">520円（宅急便コンパクト / ゆうパケットプラス ※資材込）</option>
-        <option value="750">750円（らくらく 60サイズ）</option>
-        <option value="1070">1,070円（らくらく 80サイズ）</option>
-        <option value="1200">1,200円（らくらく 100サイズ）</option>
-        <option value="custom">カスタム入力</option>
-      </select>
-    </div>
-    <div class="field-row" id="customShipRow" style="display:none">
-      <span class="field-label">配送料</span>
-      <input type="number" id="customShip" placeholder="例: 600" min="0" inputmode="numeric" oninput="calc()">
-      <span class="field-unit">円</span>
-    </div>
-  </div>
-
-  <!-- 結果 -->
-  <div class="result-grid">
-    <div class="result-box">
-      <div class="label">利益</div>
-      <div class="value neutral" id="profitVal">— 円</div>
-    </div>
-    <div class="result-box">
-      <div class="label">利益率</div>
-      <div class="value neutral" id="marginVal">— %</div>
-    </div>
-  </div>
-
-  <!-- 内訳 -->
-  <div class="breakdown">
-    <div class="brk-row"><span>販売価格</span><span id="brkSell">—</span></div>
-    <div class="brk-row"><span>手数料</span><span id="brkFee">—</span></div>
-    <div class="brk-row"><span>配送料</span><span id="brkShip">—</span></div>
-    <div class="brk-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
-    <div class="brk-row total"><span>合計コスト</span><span id="brkTotal">—</span></div>
-  </div>
-
-  <!-- 詳細設定 -->
-  <details>
-    <summary>目標設定（OK/NG基準）</summary>
-    <div class="detail-body">
-      <div class="field-row" style="margin-top:10px">
-        <span class="field-label">目標利益率</span>
-        <input type="number" id="targetMargin" value="20" min="0" max="100" inputmode="numeric" oninput="calc()">
-        <span class="field-unit">%以上</span>
+    <!-- 販売・配送 -->
+    <div class="section">
+      <div class="section-title">販売情報</div>
+      <div class="field-row">
+        <span class="field-label">販売価格</span>
+        <input type="number" id="sellPrice" placeholder="例: 1500" min="0" inputmode="numeric" oninput="calc()">
+        <span class="field-unit">円</span>
       </div>
       <div class="field-row">
-        <span class="field-label">最低利益額</span>
-        <input type="number" id="targetProfit" value="0" min="0" inputmode="numeric" oninput="calc()">
-        <span class="field-unit">円以上</span>
+        <span class="field-label">配送料</span>
+        <select id="shippingSelect" onchange="handleShipping()">
+          <option value="0">なし（0円）</option>
+          <option value="180">180円（ゆうパケットポストmini ※封筒込）</option>
+          <option value="210" selected>210円（ゆうパケットポスト）</option>
+          <option value="230">230円（ゆうゆう ゆうパケット）</option>
+          <option value="520">520円（宅急便コンパクト / ゆうパケットプラス ※資材込）</option>
+          <option value="750">750円（らくらく 60サイズ）</option>
+          <option value="1070">1,070円（らくらく 80サイズ）</option>
+          <option value="1200">1,200円（らくらく 100サイズ）</option>
+          <option value="custom">カスタム入力</option>
+        </select>
+      </div>
+      <div class="field-row" id="customShipRow" style="display:none">
+        <span class="field-label">配送料</span>
+        <input type="number" id="customShip" placeholder="例: 600" min="0" inputmode="numeric" oninput="calc()">
+        <span class="field-unit">円</span>
       </div>
     </div>
-  </details>
 
-  <button class="btn-reset" onclick="resetAll()">リセット</button>
+    <!-- 結果 -->
+    <div class="result-grid">
+      <div class="result-box">
+        <div class="label">利益</div>
+        <div class="value neu" id="profitVal">— 円</div>
+      </div>
+      <div class="result-box">
+        <div class="label">利益率</div>
+        <div class="value neu" id="marginVal">— %</div>
+      </div>
+    </div>
 
+    <!-- 内訳 -->
+    <div class="breakdown">
+      <div class="brk-row"><span>販売価格</span><span id="brkSell">—</span></div>
+      <div class="brk-row"><span>手数料</span><span id="brkFee">—</span></div>
+      <div class="brk-row"><span>配送料</span><span id="brkShip">—</span></div>
+      <div class="brk-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
+      <div class="brk-row total"><span>合計コスト</span><span id="brkTotal">—</span></div>
+    </div>
+
+    <!-- 詳細設定 -->
+    <details>
+      <summary>判定しきい値（調整可能）</summary>
+      <div class="detail-body">
+        <div style="font-size:11px;color:#666;margin:10px 0 8px;letter-spacing:0.05em;">▼ 利益率（基本軸）</div>
+        <div class="field-row">
+          <span class="field-label">🟢 GO</span>
+          <input type="number" id="rateGo" value="25" min="0" inputmode="numeric" oninput="calc()">
+          <span class="field-unit">%以上</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label">🟡 様子見</span>
+          <input type="number" id="rateWarn" value="15" min="0" inputmode="numeric" oninput="calc()">
+          <span class="field-unit">%以上</span>
+        </div>
+        <div style="font-size:11px;color:#666;margin:10px 0 8px;letter-spacing:0.05em;">▼ 利益額（補正軸）</div>
+        <div class="field-row">
+          <span class="field-label">🟢 昇格</span>
+          <input type="number" id="profitGo" value="800" min="0" inputmode="numeric" oninput="calc()">
+          <span class="field-unit">円以上</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label">🔴 強制赤</span>
+          <input type="number" id="profitMin" value="300" min="0" inputmode="numeric" oninput="calc()">
+          <span class="field-unit">円未満</span>
+        </div>
+      </div>
+    </details>
+
+    <!-- 保存・リセット -->
+    <button class="btn-save" onclick="saveRecord()">💾 この結果を保存</button>
+    <button class="btn-reset" onclick="resetAll()">リセット</button>
+
+  </div>
+</div>
+
+<!-- 履歴タブ -->
+<div id="tab-hist" class="page">
+  <div class="container">
+    <div class="hist-toolbar">
+      <button class="btn-csv" onclick="exportCSV()">📥 CSV出力</button>
+      <button class="btn-clear" onclick="clearAll()">🗑 全削除</button>
+    </div>
+    <div id="histList"></div>
+  </div>
 </div>
 
 <script>
   let currentFeeRate = 10;
   let currentMode = 'book';
+  let currentPlatform = 'メルカリ';
+  let db;
 
   const platforms = {
-    amazon: { name: 'Amazon', fee: 10 },
+    amazon:  { name: 'Amazon',  fee: 10 },
     mercari: { name: 'メルカリ', fee: 10 },
-    yahoo: { name: 'ヤフオク', fee: 10 },
-    rakuma: { name: 'ラクマ', fee: 6 }
+    yahoo:   { name: 'ヤフオク', fee: 10 },
+    rakuma:  { name: 'ラクマ',   fee: 6  }
   };
 
+  const modeDefaults = {
+    book:  { rateGo: 25, rateWarn: 15, profitGo: 800, profitMin: 300,  shipping: '210' },
+    goods: { rateGo: 20, rateWarn: 10, profitGo: 3000, profitMin: 500, shipping: '750' }
+  };
+
+  // IndexedDB初期化
+  const req = indexedDB.open('sedoriDB', 1);
+  req.onupgradeneeded = e => {
+    e.target.result.createObjectStore('items', { keyPath: 'id', autoIncrement: true });
+  };
+  req.onsuccess = e => { db = e.target.result; loadHistory(); };
+
+  // タブ切替
+  function showTab(name, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+    document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('show');
+    btn.classList.add('active');
+    if (name === 'hist') loadHistory();
+  }
+
+  // モード切替
   function setMode(mode, btn) {
     currentMode = mode;
     document.querySelectorAll('.mode button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    // モードに応じてデフォルト配送料を変更
-    const sel = document.getElementById('shippingSelect');
-    if (mode === 'book') {
-      sel.value = '210';
-    } else {
-      sel.value = '750';
-    }
+    const d = modeDefaults[mode];
+    document.getElementById('rateGo').value    = d.rateGo;
+    document.getElementById('rateWarn').value  = d.rateWarn;
+    document.getElementById('profitGo').value  = d.profitGo;
+    document.getElementById('profitMin').value = d.profitMin;
+    document.getElementById('shippingSelect').value = d.shipping;
     document.getElementById('customShipRow').style.display = 'none';
     calc();
   }
 
+  // プラットフォーム
   function setPlatform(key, btn) {
     document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFeeRate = platforms[key].fee;
-    document.getElementById('feeNote').textContent = `手数料：${currentFeeRate}%（${platforms[key].name}）`;
+    currentPlatform = platforms[key].name;
+    document.getElementById('feeNote').textContent = `手数料：${currentFeeRate}%（${currentPlatform}）`;
     calc();
   }
 
+  // 配送料
   function handleShipping() {
     const sel = document.getElementById('shippingSelect');
     document.getElementById('customShipRow').style.display = sel.value === 'custom' ? 'flex' : 'none';
@@ -420,6 +567,7 @@ details[open] summary::after { content: '▲'; }
     return parseFloat(sel.value) || 0;
   }
 
+  // 原価
   function getCostTotal() {
     let sum = 0;
     document.querySelectorAll('.cost-input').forEach(el => sum += parseFloat(el.value) || 0);
@@ -427,7 +575,7 @@ details[open] summary::after { content: '▲'; }
   }
 
   function updateCostTotal() {
-    document.getElementById('totalCost').textContent = fmtNum(getCostTotal()) + ' 円';
+    document.getElementById('totalCost').textContent = fmt(getCostTotal()) + ' 円';
     calc();
   }
 
@@ -438,7 +586,7 @@ details[open] summary::after { content: '▲'; }
     div.innerHTML = `
       <input type="number" class="cost-input" placeholder="例: 300" min="0" inputmode="numeric">
       <span class="cost-unit">円</span>
-      <button class="btn-del" onclick="this.closest('.cost-row').remove(); updateCostTotal()">×</button>
+      <button class="btn-del" onclick="this.closest('.cost-row').remove();updateCostTotal()">×</button>
     `;
     div.querySelector('input').addEventListener('input', updateCostTotal);
     list.appendChild(div);
@@ -447,70 +595,118 @@ details[open] summary::after { content: '▲'; }
 
   document.querySelector('.cost-input').addEventListener('input', updateCostTotal);
 
-  function fmtNum(n) {
-    return Math.round(n).toLocaleString('ja-JP');
+  function fmt(n) { return Math.round(n).toLocaleString('ja-JP'); }
+
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
   }
 
+  // 三段階カラー判定
+  function getJudgement(profit, rate) {
+    const RATE_GO   = parseFloat(document.getElementById('rateGo').value)   || 25;
+    const RATE_WARN = parseFloat(document.getElementById('rateWarn').value)  || 15;
+    const PROFIT_GO = parseFloat(document.getElementById('profitGo').value)  || 800;
+    const PROFIT_MIN= parseFloat(document.getElementById('profitMin').value) || 300;
+
+    let color = 'ng';
+    if      (rate >= RATE_GO)   color = 'go';
+    else if (rate >= RATE_WARN) color = 'warn';
+    else                        color = 'ng';
+
+    if (profit < PROFIT_MIN) color = 'ng';
+    else if (profit >= PROFIT_GO) {
+      if (color === 'warn') color = 'go';
+      if (color === 'ng')   color = 'warn';
+    }
+    return color;
+  }
+
+  // 計算
   function calc() {
     const cost = getCostTotal();
     const sell = parseFloat(document.getElementById('sellPrice').value) || 0;
     const ship = getShipping();
-    const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 0;
-    const targetProfit = parseFloat(document.getElementById('targetProfit').value) || 0;
 
-    if (sell === 0) {
-      setNeutral(); return;
-    }
+    if (sell === 0) { clearResult(); return; }
 
     const fee = sell * (currentFeeRate / 100);
     const totalCost = cost + fee + ship;
     const profit = sell - totalCost;
     const margin = (profit / sell) * 100;
 
-    // 利益表示
     const pEl = document.getElementById('profitVal');
-    pEl.textContent = fmtNum(profit) + ' 円';
+    pEl.textContent = fmt(profit) + ' 円';
     pEl.className = 'value ' + (profit >= 0 ? 'pos' : 'neg');
 
     const mEl = document.getElementById('marginVal');
     mEl.textContent = margin.toFixed(1) + ' %';
     mEl.className = 'value ' + (margin >= 0 ? 'pos' : 'neg');
 
-    // 内訳
-    document.getElementById('brkSell').textContent = fmtNum(sell) + ' 円';
-    document.getElementById('brkFee').textContent = '−' + fmtNum(fee) + ' 円';
-    document.getElementById('brkShip').textContent = '−' + fmtNum(ship) + ' 円';
-    document.getElementById('brkCost').textContent = '−' + fmtNum(cost) + ' 円';
-    document.getElementById('brkTotal').textContent = fmtNum(totalCost) + ' 円';
+    document.getElementById('brkSell').textContent  = fmt(sell) + ' 円';
+    document.getElementById('brkFee').textContent   = '−' + fmt(fee) + ' 円';
+    document.getElementById('brkShip').textContent  = '−' + fmt(ship) + ' 円';
+    document.getElementById('brkCost').textContent  = '−' + fmt(cost) + ' 円';
+    document.getElementById('brkTotal').textContent = fmt(totalCost) + ' 円';
 
-    // OK/NG判定
+    const color = getJudgement(Math.round(profit), margin);
     const judge = document.getElementById('judge');
-    const isOk = profit >= targetProfit && margin >= targetMargin;
-    if (profit < 0) {
-      judge.className = 'ng';
-      judge.textContent = '✕ 赤字です';
-    } else if (isOk) {
-      judge.className = 'ok';
-      judge.textContent = '✓ 仕入れOK！';
+    judge.className = color;
+    if (color === 'go') {
+      judge.textContent = `🟢 GO！　¥${fmt(profit)}（${margin.toFixed(1)}%）`;
+    } else if (color === 'warn') {
+      judge.textContent = `🟡 様子見　¥${fmt(profit)}（${margin.toFixed(1)}%）`;
     } else {
-      judge.className = 'ng';
-      judge.textContent = `✕ 目標未達（あと${fmtNum(Math.max(targetProfit - profit, 0))}円 / 利益率${margin.toFixed(1)}%）`;
+      judge.textContent = profit < 0
+        ? `🔴 赤字　¥${fmt(profit)}（${margin.toFixed(1)}%）`
+        : `🔴 NG　¥${fmt(profit)}（${margin.toFixed(1)}%）`;
     }
+
+    return { cost, sell, fee, ship, totalCost, profit, margin, color };
   }
 
-  function setNeutral() {
-    const judge = document.getElementById('judge');
-    judge.className = 'neutral';
-    judge.textContent = '― 入力してください ―';
-    ['profitVal','marginVal'].forEach(id => {
-      document.getElementById(id).textContent = '— 円';
-      document.getElementById(id).className = 'value neutral';
-    });
+  function clearResult() {
+    document.getElementById('judge').className = 'neutral';
+    document.getElementById('judge').textContent = '― 入力してください ―';
+    document.getElementById('profitVal').textContent = '— 円';
+    document.getElementById('profitVal').className = 'value neu';
+    document.getElementById('marginVal').textContent = '— %';
+    document.getElementById('marginVal').className = 'value neu';
     ['brkSell','brkFee','brkShip','brkCost','brkTotal'].forEach(id => {
       document.getElementById(id).textContent = '—';
     });
   }
 
+  // 保存
+  function saveRecord() {
+    const r = calc();
+    if (!r) { alert('販売価格を入力してください'); return; }
+
+    const isOk = r.color;
+
+    const record = {
+      date:      new Date().toISOString(),
+      name:      '',
+      mode:      currentMode === 'book' ? '本・CD・ゲーム' : '家電・雑貨',
+      platform:  currentPlatform,
+      cost:      Math.round(r.cost),
+      sell:      Math.round(r.sell),
+      fee:       Math.round(r.fee),
+      ship:      Math.round(r.ship),
+      profit:    Math.round(r.profit),
+      margin:    parseFloat(r.margin.toFixed(1)),
+      judge:     r.color === 'go' ? '🟢GO' : r.color === 'warn' ? '🟡様子見' : '🔴NG'
+    };
+
+    const tx = db.transaction('items', 'readwrite');
+    tx.objectStore('items').add(record);
+    tx.oncomplete = () => {
+      alert('保存しました');
+      resetAll();
+    };
+  }
+
+  // リセット
   function resetAll() {
     const list = document.getElementById('costList');
     list.innerHTML = `<div class="cost-row">
@@ -520,10 +716,99 @@ details[open] summary::after { content: '▲'; }
     list.querySelector('input').addEventListener('input', updateCostTotal);
     document.getElementById('totalCost').textContent = '0 円';
     document.getElementById('sellPrice').value = '';
-    document.getElementById('shippingSelect').value = '210';
+    document.getElementById('shippingSelect').value = modeDefaults[currentMode].shipping;
     document.getElementById('customShipRow').style.display = 'none';
-    document.getElementById('customShip').value = '';
-    setNeutral();
+    clearResult();
+  }
+
+  // 履歴表示
+  function loadHistory() {
+    if (!db) return;
+    const tx = db.transaction('items', 'readonly');
+    const req = tx.objectStore('items').getAll();
+    req.onsuccess = () => {
+      const list = document.getElementById('histList');
+      const items = req.result.reverse();
+      if (items.length === 0) {
+        list.innerHTML = '<div class="hist-empty">保存した履歴がありません</div>';
+        return;
+      }
+      list.innerHTML = '';
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'hist-item';
+        div.innerHTML = `
+          <div class="hist-header">
+            <span class="hist-date">${fmtDate(item.date)}　${item.mode}　${item.platform}</span>
+            <span class="hist-badge ${item.judge.includes('GO') ? 'ok' : item.judge.includes('様子見') ? 'warn' : 'ng'}">${item.judge}</span>
+          </div>
+          <div class="hist-name">
+            <input type="text" value="${item.name}" placeholder="商品名（あとで入力可）"
+              onchange="updateName(${item.id}, this.value)">
+          </div>
+          <div class="hist-figures">
+            <div>仕入れ<br><span>${item.cost.toLocaleString()}円</span></div>
+            <div>販売<br><span>${item.sell.toLocaleString()}円</span></div>
+            <div>利益<br><span class="hist-profit ${item.profit >= 0 ? 'pos' : 'neg'}">${item.profit.toLocaleString()}円</span></div>
+            <div>利益率<br><span>${item.margin}%</span></div>
+          </div>
+          <button class="hist-del" onclick="deleteRecord(${item.id})">削除</button>
+        `;
+        list.appendChild(div);
+      });
+    };
+  }
+
+  function updateName(id, name) {
+    const tx = db.transaction('items', 'readwrite');
+    const store = tx.objectStore('items');
+    const r = store.get(id);
+    r.onsuccess = () => { const d = r.result; d.name = name; store.put(d); };
+  }
+
+  function deleteRecord(id) {
+    if (!confirm('この履歴を削除しますか？')) return;
+    const tx = db.transaction('items', 'readwrite');
+    tx.objectStore('items').delete(id);
+    tx.oncomplete = loadHistory;
+  }
+
+  function clearAll() {
+    if (!confirm('全ての履歴を削除しますか？')) return;
+    const tx = db.transaction('items', 'readwrite');
+    tx.objectStore('items').clear();
+    tx.oncomplete = loadHistory;
+  }
+
+  // CSV出力（古物台帳連携用フィールド含む）
+  function exportCSV() {
+    const tx = db.transaction('items', 'readonly');
+    const req = tx.objectStore('items').getAll();
+    req.onsuccess = () => {
+      if (req.result.length === 0) { alert('保存データがありません'); return; }
+      const BOM = '\uFEFF';
+      let csv = BOM + '日付,商品名,カテゴリ,販売先,仕入れ価格,販売価格,手数料,配送料,利益,利益率,判定\n';
+      req.result.forEach(item => {
+        csv += [
+          fmtDate(item.date),
+          item.name || '',
+          item.mode,
+          item.platform,
+          item.cost,
+          item.sell,
+          item.fee,
+          item.ship,
+          item.profit,
+          item.margin + '%',
+          item.judge
+        ].map(v => `"${v}"`).join(',') + '\n';
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `sedori_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    };
   }
 </script>
 </body>
