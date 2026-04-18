@@ -3,384 +3,527 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>せどり 利益計算</title>
+<title>せどり計算</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-    background: #f0f4f8;
-    color: #2d3748;
-    min-height: 100vh;
-    padding: 16px;
-  }
-  h1 {
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #2b6cb0;
-    margin-bottom: 16px;
-    letter-spacing: 0.05em;
-  }
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  }
-  .section-title {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #718096;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 10px;
-  }
-  label { font-size: 0.88rem; color: #4a5568; font-weight: 600; }
-  input[type="number"], select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #2d3748;
-    background: #f7fafc;
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-  input[type="number"]:focus, select:focus {
-    border-color: #4299e1;
-    background: #ebf8ff;
-  }
-  .input-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .input-row input { flex: 1; }
-  .cost-label {
-    font-size: 0.8rem;
-    color: #718096;
-    min-width: 56px;
-    text-align: right;
-  }
-  .btn-remove {
-    background: #fed7d7;
-    color: #c53030;
-    border: none;
-    border-radius: 6px;
-    width: 32px;
-    height: 36px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .btn-add {
-    background: #ebf8ff;
-    color: #2b6cb0;
-    border: 1.5px dashed #90cdf4;
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 4px;
-  }
-  .btn-add:hover { background: #bee3f8; }
-  .cost-total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #e2e8f0;
-    font-size: 0.9rem;
-    color: #4a5568;
-  }
-  .cost-total-val { font-weight: 700; font-size: 1rem; color: #2d3748; }
-  .field-group { margin-bottom: 10px; }
-  .field-group label { display: block; margin-bottom: 4px; }
-  .field-row {
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-    margin-bottom: 10px;
-  }
-  .field-row .field-group { margin-bottom: 0; flex: 1; }
-  .unit {
-    font-size: 0.85rem;
-    color: #718096;
-    padding-bottom: 12px;
-    flex-shrink: 0;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  background: #111;
+  color: #fff;
+  min-height: 100vh;
+  padding-bottom: 32px;
+}
 
-  /* 結果カード */
-  .result-card {
-    background: linear-gradient(135deg, #2b6cb0 0%, #2c5282 100%);
-    border-radius: 14px;
-    padding: 20px 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 16px rgba(43,108,176,0.25);
-    color: #fff;
-  }
-  .result-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 16px;
-  }
-  .result-label {
-    font-size: 0.82rem;
-    opacity: 0.8;
-    margin-bottom: 4px;
-  }
-  .result-value {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-  .result-value.negative { color: #fc8181; }
-  .result-value.positive { color: #9ae6b4; }
-  .result-margin {
-    text-align: right;
-  }
-  .result-margin .result-value { font-size: 1.7rem; }
-  .result-breakdown {
-    background: rgba(255,255,255,0.12);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 0.82rem;
-  }
-  .breakdown-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
-    opacity: 0.9;
-  }
-  .breakdown-row.total-cost {
-    border-top: 1px solid rgba(255,255,255,0.25);
-    margin-top: 4px;
-    padding-top: 6px;
-    font-weight: 700;
-    opacity: 1;
-  }
-  .btn-reset {
-    background: #e2e8f0;
-    color: #4a5568;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-  }
-  .btn-reset:hover { background: #cbd5e0; }
+/* モード切替 */
+.mode {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+.mode button {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  background: #1a1a1a;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode button.active {
+  background: #00c853;
+  color: #000;
+}
+
+/* OK/NG判定 */
+#judge {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  padding: 18px;
+  letter-spacing: 0.05em;
+  transition: background 0.3s;
+}
+.ok { background: #00c853; color: #000; }
+.ng { background: #d50000; color: #fff; }
+.neutral { background: #333; color: #aaa; }
+
+/* コンテナ */
+.container { padding: 16px; }
+
+/* セクション */
+.section {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* 入力 */
+input[type="number"], select {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1.5px solid #333;
+  background: #2a2a2a;
+  color: #fff;
+  outline: none;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+input[type="number"]:focus, select:focus {
+  border-color: #00c853;
+}
+input[type="number"]::placeholder { color: #555; }
+select option { background: #2a2a2a; }
+
+/* 原価リスト */
+.cost-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.cost-row input { flex: 1; }
+.cost-unit { color: #888; font-size: 14px; min-width: 18px; }
+.btn-del {
+  background: #3a1a1a;
+  color: #ff5252;
+  border: none;
+  border-radius: 6px;
+  width: 34px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.btn-add {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1.5px dashed #444;
+  border-radius: 8px;
+  color: #00c853;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.cost-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #333;
+  font-size: 14px;
+  color: #aaa;
+}
+.cost-total span:last-child { color: #fff; font-weight: 700; }
+
+/* フィールド行 */
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.field-row:last-child { margin-bottom: 0; }
+.field-row input, .field-row select { flex: 1; margin-bottom: 0; }
+.field-label {
+  font-size: 13px;
+  color: #888;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+.field-unit { color: #888; font-size: 14px; flex-shrink: 0; }
+
+/* プラットフォーム */
+.platform-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.platform-btn {
+  padding: 12px;
+  border: 1.5px solid #333;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+.platform-btn.active {
+  border-color: #00c853;
+  background: #0a2a12;
+  color: #00c853;
+}
+.fee-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* 結果 */
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.result-box {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.result-box .label { font-size: 12px; color: #888; margin-bottom: 6px; }
+.result-box .value {
+  font-size: 22px;
+  font-weight: 800;
+}
+.value.pos { color: #00c853; }
+.value.neg { color: #ff5252; }
+.value.neutral { color: #888; }
+
+/* 内訳 */
+.breakdown {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.brk-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 5px 0;
+  color: #aaa;
+  border-bottom: 1px solid #2a2a2a;
+}
+.brk-row:last-child { border-bottom: none; }
+.brk-row.total {
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid #444;
+  border-bottom: none;
+}
+
+/* 詳細設定 */
+details {
+  background: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+summary {
+  padding: 13px 14px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+summary::after { content: '▼'; font-size: 11px; }
+details[open] summary::after { content: '▲'; }
+.detail-body { padding: 0 14px 14px; }
+
+/* リセット */
+.btn-reset {
+  width: 100%;
+  padding: 12px;
+  background: #2a2a2a;
+  border: none;
+  border-radius: 8px;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
 
-<h1>📦 せどり 利益計算</h1>
-
-<!-- 原価 -->
-<div class="card">
-  <div class="section-title">原価（仕入れ）</div>
-  <div id="costList">
-    <div class="input-row" data-idx="0">
-      <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
-      <span class="cost-label">円</span>
-    </div>
-  </div>
-  <button class="btn-add" onclick="addCostRow()">＋ 商品を追加</button>
-  <div class="cost-total-row">
-    <span>仕入れ合計</span>
-    <span class="cost-total-val"><span id="totalCost">0</span> 円</span>
-  </div>
+<!-- モード切替 -->
+<div class="mode">
+  <button class="active" onclick="setMode('book', this)">📚 本・CD・ゲーム</button>
+  <button onclick="setMode('goods', this)">📦 家電・雑貨</button>
 </div>
 
-<!-- 販売・手数料・配送 -->
-<div class="card">
-  <div class="section-title">販売情報</div>
+<!-- OK/NG判定 -->
+<div id="judge" class="neutral">― 入力してください ―</div>
 
-  <div class="field-row">
-    <div class="field-group">
-      <label>販売価格</label>
+<div class="container">
+
+  <!-- プラットフォーム -->
+  <div class="section">
+    <div class="section-title">販売プラットフォーム</div>
+    <div class="platform-grid">
+      <div class="platform-btn" onclick="setPlatform('amazon', this)">Amazon<br><small>10%</small></div>
+      <div class="platform-btn active" onclick="setPlatform('mercari', this)">メルカリ<br><small>10%</small></div>
+      <div class="platform-btn" onclick="setPlatform('yahoo', this)">ヤフオク<br><small>10%</small></div>
+      <div class="platform-btn" onclick="setPlatform('rakuma', this)">ラクマ<br><small>6%</small></div>
+    </div>
+    <div class="fee-note" id="feeNote">手数料：10%（メルカリ）</div>
+  </div>
+
+  <!-- 原価 -->
+  <div class="section">
+    <div class="section-title">仕入れ原価</div>
+    <div id="costList">
+      <div class="cost-row">
+        <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
+        <span class="cost-unit">円</span>
+      </div>
+    </div>
+    <button class="btn-add" onclick="addCostRow()">＋ まとめ買い追加</button>
+    <div class="cost-total">
+      <span>仕入れ合計</span>
+      <span id="totalCost">0 円</span>
+    </div>
+  </div>
+
+  <!-- 販売・配送 -->
+  <div class="section">
+    <div class="section-title">販売情報</div>
+    <div class="field-row">
+      <span class="field-label">販売価格</span>
       <input type="number" id="sellPrice" placeholder="例: 1500" min="0" inputmode="numeric" oninput="calc()">
+      <span class="field-unit">円</span>
     </div>
-    <span class="unit">円</span>
+    <div class="field-row">
+      <span class="field-label">配送料</span>
+      <select id="shippingSelect" onchange="handleShipping()">
+        <option value="0">なし（0円）</option>
+        <option value="180">180円（ゆうパケットポストmini ※封筒込）</option>
+        <option value="210" selected>210円（ゆうパケットポスト）</option>
+        <option value="230">230円（ゆうゆう ゆうパケット）</option>
+        <option value="520">520円（宅急便コンパクト / ゆうパケットプラス ※資材込）</option>
+        <option value="750">750円（らくらく 60サイズ）</option>
+        <option value="1070">1,070円（らくらく 80サイズ）</option>
+        <option value="1200">1,200円（らくらく 100サイズ）</option>
+        <option value="custom">カスタム入力</option>
+      </select>
+    </div>
+    <div class="field-row" id="customShipRow" style="display:none">
+      <span class="field-label">配送料</span>
+      <input type="number" id="customShip" placeholder="例: 600" min="0" inputmode="numeric" oninput="calc()">
+      <span class="field-unit">円</span>
+    </div>
   </div>
 
-  <div class="field-row">
-    <div class="field-group">
-      <label>手数料率</label>
-      <input type="number" id="feeRate" value="10" min="0" max="100" step="0.1" inputmode="decimal" oninput="calc()">
+  <!-- 結果 -->
+  <div class="result-grid">
+    <div class="result-box">
+      <div class="label">利益</div>
+      <div class="value neutral" id="profitVal">— 円</div>
     </div>
-    <span class="unit">%</span>
+    <div class="result-box">
+      <div class="label">利益率</div>
+      <div class="value neutral" id="marginVal">— %</div>
+    </div>
   </div>
 
-  <div class="field-group">
-    <label>配送料</label>
-    <select id="shippingSelect" onchange="handleShipping()">
-      <option value="0">なし（0円）</option>
-      <option value="180">180円（ゆうパケットポストmini ※封筒20円込）</option>
-      <option value="210" selected>210円（ゆうパケットポスト）</option>
-      <option value="230">230円（ゆうゆう ゆうパケット）</option>
-      <option value="520">520円（宅急便コンパクト / ゆうパケットプラス ※専用資材込）</option>
-      <option value="750">750円（らくらく 60サイズ）</option>
-      <option value="1070">1,070円（らくらく 80サイズ）</option>
-      <option value="1200">1,200円（らくらく 100サイズ）</option>
-      <option value="custom">カスタム入力</option>
-    </select>
+  <!-- 内訳 -->
+  <div class="breakdown">
+    <div class="brk-row"><span>販売価格</span><span id="brkSell">—</span></div>
+    <div class="brk-row"><span>手数料</span><span id="brkFee">—</span></div>
+    <div class="brk-row"><span>配送料</span><span id="brkShip">—</span></div>
+    <div class="brk-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
+    <div class="brk-row total"><span>合計コスト</span><span id="brkTotal">—</span></div>
   </div>
-  <div class="field-row" id="customShippingRow" style="display:none; margin-top:8px;">
-    <div class="field-group">
-      <label>配送料（手入力）</label>
-      <input type="number" id="customShipping" placeholder="例: 600" min="0" inputmode="numeric" oninput="calc()">
+
+  <!-- 詳細設定 -->
+  <details>
+    <summary>目標設定（OK/NG基準）</summary>
+    <div class="detail-body">
+      <div class="field-row" style="margin-top:10px">
+        <span class="field-label">目標利益率</span>
+        <input type="number" id="targetMargin" value="20" min="0" max="100" inputmode="numeric" oninput="calc()">
+        <span class="field-unit">%以上</span>
+      </div>
+      <div class="field-row">
+        <span class="field-label">最低利益額</span>
+        <input type="number" id="targetProfit" value="0" min="0" inputmode="numeric" oninput="calc()">
+        <span class="field-unit">円以上</span>
+      </div>
     </div>
-    <span class="unit">円</span>
-  </div>
+  </details>
+
+  <button class="btn-reset" onclick="resetAll()">リセット</button>
+
 </div>
-
-<!-- 結果 -->
-<div class="result-card">
-  <div class="result-main">
-    <div>
-      <div class="result-label">利益</div>
-      <div class="result-value positive" id="profitVal">— 円</div>
-    </div>
-    <div class="result-margin">
-      <div class="result-label">利益率</div>
-      <div class="result-value" id="marginVal">— %</div>
-    </div>
-  </div>
-  <div class="result-breakdown">
-    <div class="breakdown-row"><span>販売価格</span><span id="brkSell">—</span></div>
-    <div class="breakdown-row"><span>手数料</span><span id="brkFee">—</span></div>
-    <div class="breakdown-row"><span>配送料</span><span id="brkShip">—</span></div>
-    <div class="breakdown-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
-    <div class="breakdown-row total-cost"><span>合計コスト</span><span id="brkTotal">—</span></div>
-  </div>
-</div>
-
-<button class="btn-reset" onclick="resetAll()">リセット</button>
 
 <script>
+  let currentFeeRate = 10;
+  let currentMode = 'book';
+
+  const platforms = {
+    amazon: { name: 'Amazon', fee: 10 },
+    mercari: { name: 'メルカリ', fee: 10 },
+    yahoo: { name: 'ヤフオク', fee: 10 },
+    rakuma: { name: 'ラクマ', fee: 6 }
+  };
+
+  function setMode(mode, btn) {
+    currentMode = mode;
+    document.querySelectorAll('.mode button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // モードに応じてデフォルト配送料を変更
+    const sel = document.getElementById('shippingSelect');
+    if (mode === 'book') {
+      sel.value = '210';
+    } else {
+      sel.value = '750';
+    }
+    document.getElementById('customShipRow').style.display = 'none';
+    calc();
+  }
+
+  function setPlatform(key, btn) {
+    document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFeeRate = platforms[key].fee;
+    document.getElementById('feeNote').textContent = `手数料：${currentFeeRate}%（${platforms[key].name}）`;
+    calc();
+  }
+
+  function handleShipping() {
+    const sel = document.getElementById('shippingSelect');
+    document.getElementById('customShipRow').style.display = sel.value === 'custom' ? 'flex' : 'none';
+    calc();
+  }
+
+  function getShipping() {
+    const sel = document.getElementById('shippingSelect');
+    if (sel.value === 'custom') return parseFloat(document.getElementById('customShip').value) || 0;
+    return parseFloat(sel.value) || 0;
+  }
+
   function getCostTotal() {
     let sum = 0;
-    document.querySelectorAll('.cost-input').forEach(el => {
-      sum += parseFloat(el.value) || 0;
-    });
+    document.querySelectorAll('.cost-input').forEach(el => sum += parseFloat(el.value) || 0);
     return sum;
   }
 
   function updateCostTotal() {
-    document.getElementById('totalCost').textContent = fmt(getCostTotal());
+    document.getElementById('totalCost').textContent = fmtNum(getCostTotal()) + ' 円';
     calc();
   }
 
   function addCostRow() {
     const list = document.getElementById('costList');
     const div = document.createElement('div');
-    div.className = 'input-row';
+    div.className = 'cost-row';
     div.innerHTML = `
-      <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
-      <span class="cost-label">円</span>
-      <button class="btn-remove" onclick="removeCostRow(this)" title="削除">×</button>
+      <input type="number" class="cost-input" placeholder="例: 300" min="0" inputmode="numeric">
+      <span class="cost-unit">円</span>
+      <button class="btn-del" onclick="this.closest('.cost-row').remove(); updateCostTotal()">×</button>
     `;
-    div.querySelector('.cost-input').addEventListener('input', updateCostTotal);
+    div.querySelector('input').addEventListener('input', updateCostTotal);
     list.appendChild(div);
     div.querySelector('input').focus();
   }
 
-  function removeCostRow(btn) {
-    btn.closest('.input-row').remove();
-    updateCostTotal();
-  }
-
-  // 既存の1行目にもイベント付与
   document.querySelector('.cost-input').addEventListener('input', updateCostTotal);
 
-  function handleShipping() {
-    const sel = document.getElementById('shippingSelect');
-    const row = document.getElementById('customShippingRow');
-    row.style.display = sel.value === 'custom' ? 'flex' : 'none';
-    calc();
-  }
-
-  function getShipping() {
-    const sel = document.getElementById('shippingSelect');
-    if (sel.value === 'custom') {
-      return parseFloat(document.getElementById('customShipping').value) || 0;
-    }
-    return parseFloat(sel.value) || 0;
-  }
-
-  function fmt(n) {
-    if (isNaN(n)) return '—';
-    return n.toLocaleString('ja-JP') + ' 円';
-  }
-  function fmtPct(n) {
-    if (isNaN(n)) return '—';
-    return n.toFixed(1) + ' %';
+  function fmtNum(n) {
+    return Math.round(n).toLocaleString('ja-JP');
   }
 
   function calc() {
     const cost = getCostTotal();
     const sell = parseFloat(document.getElementById('sellPrice').value) || 0;
-    const feeRate = parseFloat(document.getElementById('feeRate').value) || 0;
     const ship = getShipping();
+    const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 0;
+    const targetProfit = parseFloat(document.getElementById('targetProfit').value) || 0;
 
     if (sell === 0) {
-      clearResult(); return;
+      setNeutral(); return;
     }
 
-    const fee = sell * (feeRate / 100);
+    const fee = sell * (currentFeeRate / 100);
     const totalCost = cost + fee + ship;
     const profit = sell - totalCost;
-    const margin = sell > 0 ? (profit / sell) * 100 : 0;
+    const margin = (profit / sell) * 100;
 
+    // 利益表示
     const pEl = document.getElementById('profitVal');
-    pEl.textContent = fmt(Math.round(profit));
-    pEl.className = 'result-value ' + (profit >= 0 ? 'positive' : 'negative');
+    pEl.textContent = fmtNum(profit) + ' 円';
+    pEl.className = 'value ' + (profit >= 0 ? 'pos' : 'neg');
 
     const mEl = document.getElementById('marginVal');
-    mEl.textContent = fmtPct(margin);
-    mEl.className = 'result-value ' + (margin >= 0 ? 'positive' : 'negative');
+    mEl.textContent = margin.toFixed(1) + ' %';
+    mEl.className = 'value ' + (margin >= 0 ? 'pos' : 'neg');
 
-    document.getElementById('brkSell').textContent = fmt(sell);
-    document.getElementById('brkFee').textContent = '−' + fmt(Math.round(fee));
-    document.getElementById('brkShip').textContent = '−' + fmt(ship);
-    document.getElementById('brkCost').textContent = '−' + fmt(cost);
-    document.getElementById('brkTotal').textContent = fmt(Math.round(totalCost));
+    // 内訳
+    document.getElementById('brkSell').textContent = fmtNum(sell) + ' 円';
+    document.getElementById('brkFee').textContent = '−' + fmtNum(fee) + ' 円';
+    document.getElementById('brkShip').textContent = '−' + fmtNum(ship) + ' 円';
+    document.getElementById('brkCost').textContent = '−' + fmtNum(cost) + ' 円';
+    document.getElementById('brkTotal').textContent = fmtNum(totalCost) + ' 円';
+
+    // OK/NG判定
+    const judge = document.getElementById('judge');
+    const isOk = profit >= targetProfit && margin >= targetMargin;
+    if (profit < 0) {
+      judge.className = 'ng';
+      judge.textContent = '✕ 赤字です';
+    } else if (isOk) {
+      judge.className = 'ok';
+      judge.textContent = '✓ 仕入れOK！';
+    } else {
+      judge.className = 'ng';
+      judge.textContent = `✕ 目標未達（あと${fmtNum(Math.max(targetProfit - profit, 0))}円 / 利益率${margin.toFixed(1)}%）`;
+    }
   }
 
-  function clearResult() {
-    ['profitVal','marginVal','brkSell','brkFee','brkShip','brkCost','brkTotal'].forEach(id => {
+  function setNeutral() {
+    const judge = document.getElementById('judge');
+    judge.className = 'neutral';
+    judge.textContent = '― 入力してください ―';
+    ['profitVal','marginVal'].forEach(id => {
+      document.getElementById(id).textContent = '— 円';
+      document.getElementById(id).className = 'value neutral';
+    });
+    ['brkSell','brkFee','brkShip','brkCost','brkTotal'].forEach(id => {
       document.getElementById(id).textContent = '—';
     });
-    document.getElementById('profitVal').className = 'result-value positive';
-    document.getElementById('marginVal').className = 'result-value';
   }
 
   function resetAll() {
-    // 原価リストを1行にリセット
     const list = document.getElementById('costList');
-    list.innerHTML = `<div class="input-row" data-idx="0">
+    list.innerHTML = `<div class="cost-row">
       <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
-      <span class="cost-label">円</span>
+      <span class="cost-unit">円</span>
     </div>`;
-    list.querySelector('.cost-input').addEventListener('input', updateCostTotal);
-    document.getElementById('totalCost').textContent = '0';
+    list.querySelector('input').addEventListener('input', updateCostTotal);
+    document.getElementById('totalCost').textContent = '0 円';
     document.getElementById('sellPrice').value = '';
-    document.getElementById('feeRate').value = '10';
     document.getElementById('shippingSelect').value = '210';
-    document.getElementById('customShippingRow').style.display = 'none';
-    document.getElementById('customShipping').value = '';
-    clearResult();
+    document.getElementById('customShipRow').style.display = 'none';
+    document.getElementById('customShip').value = '';
+    setNeutral();
   }
 </script>
 </body>
