@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>せどり 利益計算</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: #f0f4f8;
+    color: #2d3748;
+    min-height: 100vh;
+    padding: 16px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2b6cb0;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  label { font-size: 0.88rem; color: #4a5568; font-weight: 600; }
+  input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #2d3748;
+    background: #f7fafc;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input[type="number"]:focus, select:focus {
+    border-color: #4299e1;
+    background: #ebf8ff;
+  }
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .input-row input { flex: 1; }
+  .cost-label {
+    font-size: 0.8rem;
+    color: #718096;
+    min-width: 56px;
+    text-align: right;
+  }
+  .btn-remove {
+    background: #fed7d7;
+    color: #c53030;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 36px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-add {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    border: 1.5px dashed #90cdf4;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .btn-add:hover { background: #bee3f8; }
+  .cost-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+    color: #4a5568;
+  }
+  .cost-total-val { font-weight: 700; font-size: 1rem; color: #2d3748; }
+  .field-group { margin-bottom: 10px; }
+  .field-group label { display: block; margin-bottom: 4px; }
+  .field-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    margin-bottom: 10px;
+  }
+  .field-row .field-group { margin-bottom: 0; flex: 1; }
+  .unit {
+    font-size: 0.85rem;
+    color: #718096;
+    padding-bottom: 12px;
+    flex-shrink: 0;
+  }
+
+  /* 結果カード */
+  .result-card {
+    background: linear-gradient(135deg, #2b6cb0 0%, #2c5282 100%);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(43,108,176,0.25);
+    color: #fff;
+  }
+  .result-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+  .result-label {
+    font-size: 0.82rem;
+    opacity: 0.8;
+    margin-bottom: 4px;
+  }
+  .result-value {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .result-value.negative { color: #fc8181; }
+  .result-value.positive { color: #9ae6b4; }
+  .result-margin {
+    text-align: right;
+  }
+  .result-margin .result-value { font-size: 1.7rem; }
+  .result-breakdown {
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    opacity: 0.9;
+  }
+  .breakdown-row.total-cost {
+    border-top: 1px solid rgba(255,255,255,0.25);
+    margin-top: 4px;
+    padding-top: 6px;
+    font-weight: 700;
+    opacity: 1;
+  }
+  .btn-reset {
+    background: #e2e8f0;
+    color: #4a5568;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-reset:hover { background: #cbd5e0; }
+</style>
+</head>
+<body>
+
+<h1>📦 せどり 利益計算</h1>
+
+<!-- 原価 -->
+<div class="card">
+  <div class="section-title">原価（仕入れ）</div>
+  <div id="costList">
+    <div class="input-row" data-idx="0">
+      <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
+      <span class="cost-label">円</span>
+    </div>
+  </div>
+  <button class="btn-add" onclick="addCostRow()">＋ 商品を追加</button>
+  <div class="cost-total-row">
+    <span>仕入れ合計</span>
+    <span class="cost-total-val"><span id="totalCost">0</span> 円</span>
+  </div>
+</div>
+
+<!-- 販売・手数料・配送 -->
+<div class="card">
+  <div class="section-title">販売情報</div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label>販売価格</label>
+      <input type="number" id="sellPrice" placeholder="例: 1500" min="0" inputmode="numeric" oninput="calc()">
+    </div>
+    <span class="unit">円</span>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label>手数料率</label>
+      <input type="number" id="feeRate" value="10" min="0" max="100" step="0.1" inputmode="decimal" oninput="calc()">
+    </div>
+    <span class="unit">%</span>
+  </div>
+
+  <div class="field-group">
+    <label>配送料</label>
+    <select id="shippingSelect" onchange="handleShipping()">
+      <option value="0">なし（0円）</option>
+      <option value="180">180円（ゆうパケットポストmini ※封筒20円込）</option>
+      <option value="210" selected>210円（ゆうパケットポスト）</option>
+      <option value="230">230円（ゆうゆう ゆうパケット）</option>
+      <option value="520">520円（宅急便コンパクト / ゆうパケットプラス ※専用資材込）</option>
+      <option value="750">750円（らくらく 60サイズ）</option>
+      <option value="1070">1,070円（らくらく 80サイズ）</option>
+      <option value="1200">1,200円（らくらく 100サイズ）</option>
+      <option value="custom">カスタム入力</option>
+    </select>
+  </div>
+  <div class="field-row" id="customShippingRow" style="display:none; margin-top:8px;">
+    <div class="field-group">
+      <label>配送料（手入力）</label>
+      <input type="number" id="customShipping" placeholder="例: 600" min="0" inputmode="numeric" oninput="calc()">
+    </div>
+    <span class="unit">円</span>
+  </div>
+</div>
+
+<!-- 結果 -->
+<div class="result-card">
+  <div class="result-main">
+    <div>
+      <div class="result-label">利益</div>
+      <div class="result-value positive" id="profitVal">— 円</div>
+    </div>
+    <div class="result-margin">
+      <div class="result-label">利益率</div>
+      <div class="result-value" id="marginVal">— %</div>
+    </div>
+  </div>
+  <div class="result-breakdown">
+    <div class="breakdown-row"><span>販売価格</span><span id="brkSell">—</span></div>
+    <div class="breakdown-row"><span>手数料</span><span id="brkFee">—</span></div>
+    <div class="breakdown-row"><span>配送料</span><span id="brkShip">—</span></div>
+    <div class="breakdown-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
+    <div class="breakdown-row total-cost"><span>合計コスト</span><span id="brkTotal">—</span></div>
+  </div>
+</div>
+
+<button class="btn-reset" onclick="resetAll()">リセット</button>
+
+<script>
+  function getCostTotal() {
+    let sum = 0;
+    document.querySelectorAll('.cost-input').forEach(el => {
+      sum += parseFloat(el.value) || 0;
+    });
+    return sum;
+  }
+
+  function updateCostTotal() {
+    document.getElementById('totalCost').textContent = fmt(getCostTotal());
+    calc();
+  }
+
+  function addCostRow() {
+    const list = document.getElementById('costList');
+    const div = document.createElement('div');
+    div.className = 'input-row';
+    div.innerHTML = `
+      <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
+      <span class="cost-label">円</span>
+      <button class="btn-remove" onclick="removeCostRow(this)" title="削除">×</button>
+    `;
+    div.querySelector('.cost-input').addEventListener('input', updateCostTotal);
+    list.appendChild(div);
+    div.querySelector('input').focus();
+  }
+
+  function removeCostRow(btn) {
+    btn.closest('.input-row').remove();
+    updateCostTotal();
+  }
+
+  // 既存の1行目にもイベント付与
+  document.querySelector('.cost-input').addEventListener('input', updateCostTotal);
+
+  function handleShipping() {
+    const sel = document.getElementById('shippingSelect');
+    const row = document.getElementById('customShippingRow');
+    row.style.display = sel.value === 'custom' ? 'flex' : 'none';
+    calc();
+  }
+
+  function getShipping() {
+    const sel = document.getElementById('shippingSelect');
+    if (sel.value === 'custom') {
+      return parseFloat(document.getElementById('customShipping').value) || 0;
+    }
+    return parseFloat(sel.value) || 0;
+  }
+
+  function fmt(n) {
+    if (isNaN(n)) return '—';
+    return n.toLocaleString('ja-JP') + ' 円';
+  }
+  function fmtPct(n) {
+    if (isNaN(n)) return '—';
+    return n.toFixed(1) + ' %';
+  }
+
+  function calc() {
+    const cost = getCostTotal();
+    const sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+    const feeRate = parseFloat(document.getElementById('feeRate').value) || 0;
+    const ship = getShipping();
+
+    if (sell === 0) {
+      clearResult(); return;
+    }
+
+    const fee = sell * (feeRate / 100);
+    const totalCost = cost + fee + ship;
+    const profit = sell - totalCost;
+    const margin = sell > 0 ? (profit / sell) * 100 : 0;
+
+    const pEl = document.getElementById('profitVal');
+    pEl.textContent = fmt(Math.round(profit));
+    pEl.className = 'result-value ' + (profit >= 0 ? 'positive' : 'negative');
+
+    const mEl = document.getElementById('marginVal');
+    mEl.textContent = fmtPct(margin);
+    mEl.className = 'result-value ' + (margin >= 0 ? 'positive' : 'negative');
+
+    document.getElementById('brkSell').textContent = fmt(sell);
+    document.getElementById('brkFee').textContent = '−' + fmt(Math.round(fee));
+    document.getElementById('brkShip').textContent = '−' + fmt(ship);
+    document.getElementById('brkCost').textContent = '−' + fmt(cost);
+    document.getElementById('brkTotal').textContent = fmt(Math.round(totalCost));
+  }
+
+  function clearResult() {
+    ['profitVal','marginVal','brkSell','brkFee','brkShip','brkCost','brkTotal'].forEach(id => {
+      document.getElementById(id).textContent = '—';
+    });
+    document.getElementById('profitVal').className = 'result-value positive';
+    document.getElementById('marginVal').className = 'result-value';
+  }
+
+  function resetAll() {
+    // 原価リストを1行にリセット
+    const list = document.getElementById('costList');
+    list.innerHTML = `<div class="input-row" data-idx="0">
+      <input type="number" class="cost-input" placeholder="例: 500" min="0" inputmode="numeric">
+      <span class="cost-label">円</span>
+    </div>`;
+    list.querySelector('.cost-input').addEventListener('input', updateCostTotal);
+    document.getElementById('totalCost').textContent = '0';
+    document.getElementById('sellPrice').value = '';
+    document.getElementById('feeRate').value = '10';
+    document.getElementById('shippingSelect').value = '210';
+    document.getElementById('customShippingRow').style.display = 'none';
+    document.getElementById('customShipping').value = '';
+    clearResult();
+  }
+</script>
+</body>
+</html>
