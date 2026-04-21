@@ -1027,6 +1027,7 @@
         // ※ YOUR_SERVICE_ID / YOUR_TEMPLATE_ID はEmailJSダッシュボードで確認してください
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!confirm('入力内容を送信してよろしいですか？')) return;
             const btn = this.querySelector('button[type="submit"]');
             const status = document.getElementById('formStatus');
             btn.disabled = true;
