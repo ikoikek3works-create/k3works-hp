@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K3Works｜機械設計・CAD外注（AutoCAD / Inventor対応）</title>
+    <meta name="description" content="機械設計・図面修正・CAD外注ならK3Works。AutoCAD・Inventor対応。実務に使える設計を提供します。">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', 'Hiragino Sans', sans-serif; 
+            line-height: 1.6; 
+            color: #2a2a2a; 
+            background-color: #ececf0;
+        }
+        
+        /* ナビゲーション */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 20px;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2a2a2a;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            background-color: #dfe5ed;
+            color: #002d5a;
+        }
+
+        nav .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #002d5a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ハンバーガーボタン */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #002d5a;
+            transition: all 0.3s;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .logo-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 0 2px;
+        }
+
+        .logo-k {
+            color: #000000;
+        }
+
+        .logo-3 {
+            color: #1a7a3e;
+        }
+
+        .logo-works {
+            color: #1e5aa8;
+        }
+        
+        .logo-image {
+            height: 50px;
+            width: auto;
+        }
+        
+        /* ファーストビュー */
+        .hero {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            min-height: 420px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+
+        /* 背景画像（左右反転） */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('assets/images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: scaleX(-1);
+            z-index: 0;
+        }
+
+        /* 暗幕オーバーレイ */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(44, 62, 80, 0.75);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0;
+        }
+        
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+        }
+
+        .hero .tagline {
+            font-size: 20px;
+            margin-bottom: 10px;
+            opacity: 0.95;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #7ab1d1;
+        }
+
+        .hero .subtitle {
+            font-size: 15px;
+            margin-bottom: 28px;
+            opacity: 0.9;
+            font-weight: 400;
+            color: #7ab1d1;
+        }
+        
+        body, .hero h1, .hero .tagline, section, section h2, section h3, section p, section ul, section li {
+            word-break: keep-all;
+            line-break: strict;
+        }
+        
+        .cta-primary {
+            background-color: #1a7a3e;
+            color: white;
+            padding: 16px 48px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: none;
+        }
+        
+        .cta-primary:hover {
+            background-color: #156633;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+        }
+        
+        /* セクション共通 */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 44px 20px;
+            background-color: white;
+        }
+        
+        section:nth-child(even) {
+            background-color: #f9f9fc;
+        }
+        
+        h2 {
+            font-size: 40px;
+            color: #002d5a;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        h3 {
+            color: #002d5a;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        /* セクション内の見出しに左ボーダーでインデント感 */
+        section h3 {
+            border-left: 3px solid #1a7a3e;
+            padding-left: 10px;
+        }
+
+        /* カード内のh3はボーダー不要（カード自体に左ボーダーあり） */
+        .card h3 {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        section h3 + p {
+            margin-top: 18px;
+        }
+        
+        /* グリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 4px solid #1a7a3e;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            border-left-color: #002d5a;
+        }
+        
+        .card h3 {
+            color: #002d5a;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        section p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        /* リストスタイル */
+        ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        section ul li {
+            padding: 5px 0 5px 14px;
+            position: relative;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        section ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a7a3e;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* 参考図面スライドショー */
+        .services-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start;
+            margin-top: 24px;
+        }
+
+        .services-info {
+            flex: 1;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 0.7;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: white;
+        }
+
+        .slide-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            color: #999;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .slide-placeholder .nda-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .slides-controls {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .slide-btn {
+            background-color: rgba(255,255,255,0.8);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #002d5a;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .slide-btn:hover {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .slides-auto-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(26, 122, 62, 0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* タブレット */
+        @media (max-width: 968px) {
+            .services-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .slideshow-container {
+                height: 280px;
+            }
+
+            footer .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        /* フッター */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 28px;
+            margin-bottom: 28px;
+        }
+        
+        footer h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #1a7a3e;
+        }
+        
+        footer a {
+            color: #bbb;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: #1a7a3e;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* スマートフォン */
+        @media (max-width: 768px) {
+            /* ハンバーガー表示 */
+            .hamburger { display: flex; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 8px 16px 16px;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+                gap: 2px;
+            }
+
+            .nav-links.open { display: flex; }
+
+            .nav-link {
+                padding: 14px 16px !important;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 15px !important;
+            }
+
+            .nav-link:last-child { border-bottom: none; }
+
+            /* ヒーロー */
+            .hero { padding: 24px 20px; min-height: 320px; align-items: flex-end; justify-content: flex-start; }
+            .hero h1 { font-size: 22px; }
+            .hero .tagline { font-size: 16px; }
+            .hero .subtitle { font-size: 14px; }
+
+            /* セクション */
+            section { padding: 28px 16px; }
+            h2 { font-size: 24px; }
+            .section-subtitle { font-size: 15px; }
+
+            /* グリッド：1列 */
+            .grid { grid-template-columns: 1fr; gap: 12px; }
+
+            /* フッター：1列 */
+            footer { padding: 28px 16px 16px; }
+            footer .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* 小型スマートフォン */
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 24px; line-height: 1.3; }
+            .hero .tagline { font-size: 14px; }
+            h2 { font-size: 22px; }
+            .cta-primary { padding: 14px 28px; font-size: 15px; }
+            .logo-image { height: 36px; }
+            .slideshow-container { height: 220px; }
+        }
+
+        /* お問い合わせフォーム */
+        .contact-form { max-width: 600px; margin: 24px auto 0; }
+        .contact-form label { display: block; font-size: 14px; font-weight: 600; color: #002d5a; margin-bottom: 4px; }
+        .form-required { color: #c0392b; margin-left: 4px; font-size: 12px; }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%; padding: 12px 14px;
+            border: 1px solid #cdd5e0; border-radius: 6px;
+            font-size: 15px; font-family: inherit;
+            margin-bottom: 14px; color: #2a2a2a;
+            background-color: #fafafa; transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-color: #1a7a3e; background-color: white;
+        }
+        .contact-form textarea { height: 140px; resize: vertical; }
+        .contact-form .cta-primary { width: 100%; cursor: pointer; border: none; }
+        .form-status { text-align: center; padding: 12px; border-radius: 6px; margin-top: 12px; display: none; font-weight: 600; }
+        .form-status.success { background-color: #d4edda; color: #155724; display: block; }
+        .form-status.error { background-color: #f8d7da; color: #721c24; display: block; }
+
+        /* CTAバナー（セクション間） */
+        .cta-banner {
+            background: linear-gradient(135deg, #002d5a 0%, #1a4a7a 100%);
+            color: white; text-align: center; padding: 36px 20px;
+        }
+        .cta-banner h3 {
+            font-size: 20px; margin-bottom: 8px;
+            color: white; border-left: none; padding-left: 0;
+        }
+        .cta-banner p { color: rgba(255,255,255,0.85); margin-bottom: 20px; font-size: 15px; }
+
+        /* LISPバナー */
+        .lisp-banner {
+            background-color: #eef7f2; border: 1px solid #b8dfc9;
+            border-radius: 8px; padding: 20px 24px; margin-top: 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .lisp-banner p { color: #155724; font-size: 15px; margin: 0; }
+        .cta-lisp {
+            background-color: #1a7a3e; color: white;
+            padding: 10px 24px; border-radius: 6px; text-decoration: none;
+            font-size: 14px; font-weight: 600; white-space: nowrap; transition: background-color 0.2s;
+        }
+        .cta-lisp:hover { background-color: #156633; }
+    </style>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>emailjs.init("ZhO9X4YmfI6GPcn6C");</script>
+</head>
+<body>
+
+    <!-- ナビゲーション -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo"><img src="assets/images/logo.png" alt="K3 Works" class="logo-image" loading="lazy"><span class="logo-text"><span class="logo-k">K</span><span class="logo-3">3</span> <span class="logo-works">Works</span></span></a>
+            <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#services" class="nav-link">サービス</a>
+                <a href="#about" class="nav-link">概要</a>
+                <a href="#blog" class="nav-link">ブログ・動画</a>
+                <a href="#contact" class="nav-link">お問い合わせ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ファーストビュー -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>3つのナレッジで<br>最適な設計をサポート。<br>応えるだけでなく「提案」する。</h1>
+            <p class="tagline">設計・現場・加工の知見を活かした、実務に使える設計支援。</p>
+            <p class="subtitle">機械設計・CAD支援に特化した設計パートナー</p>
+            <a href="#contact" class="cta-primary">図面修正・CAD外注のご相談はこちら（無料）</a>
+        </div>
+    </section>
+
+    <!-- 共感・課題提示 -->
+    <section id="challenges">
+        <h2>こんなお悩みはありませんか？</h2>
+        <p class="section-subtitle">多くの設計者が直面する課題</p>
+        <div class="grid">
+            <div class="card">
+                <h3>時間不足</h3>
+                <p>図面作成に時間を取られ、本来の設計に集中できない</p>
+            </div>
+            <div class="card">
+                <h3>手戻り発生</h3>
+                <p>外注すると意図が伝わらず、修正対応に追われる</p>
+            </div>
+            <div class="card">
+                <h3>品質ばらつき</h3>
+                <p>現場や加工を考慮した図面になっていない</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 24px; font-size: 18px; color: #002d5a; font-weight: 600;">
+            K3 Worksは、これらの課題を「設計パートナー」として解決します.</p>
+    </section>
+
+    <!-- 解決策 -->
+    <section id="services">
+        <h2>K3 Worksの設計支援サービス</h2>
+        <p class="section-subtitle">設計・現場・加工の3つの視点から実務に使える図面を提供</p>
+        
+        <h3 style="margin-top: 24px; color: #002d5a;">3つのナレッジ</h3>
+        <div class="grid">
+            <div class="card">
+                <h3 style="font-size: 24px; color: #1a7a3e;">📄 設計</h3>
+                <p>設計意図の理解と構成整理。単なる作図ではなく、最適な構成を提案します。</p>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 24px; color: #1a7a3e;">📏 現場</h3>
+                <p>使用環境・作業性を考慮。実際に使われる環境を想定した設計支援。</p>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 24px; color: #1a7a3e;">⚙️ 加工</h3>
+                <p>加工性・実現性の視点。製造の制約を理解した実現可能な設計を実現。</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 30px; color: #002d5a;">対応業務</h3>
+        
+        <div class="services-container">
+            <!-- 左側：業務情報 -->
+            <div class="services-info">
+                <h4 style="color: #002d5a; font-size: 16px; margin-bottom: 16px;">業務内容</h4>
+                <ul>
+                    <li>部品図・組立図作成</li>
+                    <li>バラシ（部品展開）</li>
+                    <li>図面修正・トレース</li>
+                    <li>3Dモデリング</li>
+                    <li>3D→2D図面化</li>
+                    <li>設計補助（構成・配置検討）</li>
+                </ul>
+
+                <h3 style="margin-top: 18px; color: #002d5a;">対応分野</h3>
+                <ul>
+                    <li>機械装置</li>
+                    <li>設備設計</li>
+                    <li>治具設計</li>
+                    <li>一般機械部品</li>
+                </ul>
+
+                <h3 style="margin-top: 18px; color: #002d5a;">使用CAD</h3>
+                <ul>
+                    <li>AutoCAD、AutoCAD Mechanical（2D）</li>
+                    <li>SolidWorks（3D）</li>
+                    <li>Autodesk Inventor（3D）</li>
+                </ul>
+            </div>
+
+            <!-- 右側：参考図面スライドショー -->
+            <div>
+                <p style="font-size: 14px; color: #999; margin-bottom: 12px; text-align: center;">参考図面（NDA対象）</p>
+                <div class="slideshow-container" id="slideshowContainer">
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span> / <span id="totalSlides">3</span>
+                    </div>
+                    <div class="slides-auto-indicator" id="autoIndicator">
+                        自動ローリング中...
+                    </div>
+
+                    <!-- スライド例：実際の画像を入れてください -->
+                    <div class="slide active">
+                        <div class="slide-placeholder">
+                            <div>
+                                <div class="nda-label">🔒 NDA対象</div>
+                                <p>参考図面1</p>
+                                <p style="font-size: 12px; color: #bbb; margin-top: 8px;">assets/images/sample1.jpg</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide">
+                        <div class="slide-placeholder">
+                            <div>
+                                <div class="nda-label">🔒 NDA対象</div>
+                                <p>参考図面2</p>
+                                <p style="font-size: 12px; color: #bbb; margin-top: 8px;">assets/images/sample2.jpg</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide">
+                        <div class="slide-placeholder">
+                            <div>
+                                <div class="nda-label">🔒 NDA対象</div>
+                                <p>参考図面3</p>
+                                <p style="font-size: 12px; color: #bbb; margin-top: 8px;">assets/images/sample3.jpg</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- コントロールボタン -->
+                    <div class="slides-controls">
+                        <button class="slide-btn" id="prevBtn" onclick="changeSlide(-1)">← 前へ</button>
+                        <button class="slide-btn" id="nextBtn" onclick="changeSlide(1)">次へ →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- サービス後CTA② -->
+    <div class="cta-banner">
+        <div style="max-width:700px; margin:0 auto;">
+            <h3>AutoCAD / Inventor / SolidWorks 対応</h3>
+            <p>図面修正・3Dモデリング・設計補助。現場・加工を考慮した実務設計に対応します。</p>
+            <a href="#contact" class="cta-primary">図面修正・CAD外注のご相談はこちら（無料）</a>
+        </div>
+    </div>
+
+    <!-- K3の由来 -->
+    <section id="about">
+        <h2>K3 Worksについて</h2>
+        <p class="section-subtitle">「K3」は、3つのナレッジを掛け合わせる設計・CAD支援を意味しています</p>
+        
+        <h3 style="color: #002d5a; margin-top: 20px;">K3の由来</h3>
+        <ul>
+            <li><strong>K1</strong>：機械設計の知識</li>
+            <li><strong>K2</strong>：生産・加工など現場の知識</li>
+            <li><strong>K3</strong>：経験の結晶を未来へ活かす知識</li>
+        </ul>
+        <p style="margin-top: 12px;">設計・生産・加工それぞれの視点を活かした「実践的なCAD外注」を提供します。</p>
+
+        <h3 style="color: #002d5a; margin-top: 24px;">経歴概要</h3>
+        <ul>
+            <li><strong>生産ライン実務：5年</strong>（シュリンクラベルの素材生産ライン機長）</li>
+            <li><strong>機械加工：3年</strong>（金型製作／NCフライス、フライス盤、片彫り放電加工機、旋盤、その他工作機）</li>
+            <li><strong>機械設計：15年</strong>（設計・製図／主な分野：産業機械、搬送装置、治具設計、試験装置等）</li>
+        </ul>
+        <p style="margin-top: 12px;">現場経験を経た設計者として「組める・加工できる図面」を重視しています。</p>
+
+        <h3 style="color: #002d5a; margin-top: 24px;">設計への考え方</h3>
+        <p>図面は「描くこと」ではなく、「伝わり、使われること」に価値があると考えています。</p>
+        <p style="margin-top: 10px;">見やすさ・整合性・実用性を重視し、現場で迷いの出ない図面作成を行います。</p>
+        <p style="margin-top: 10px;">また、指示内容をそのまま形にするだけでなく、より良い形がある場合は整理・提案を行い、設計全体の品質向上に貢献します。</p>
+
+        <h3 style="color: #002d5a; margin-top: 24px;">事業タイムライン</h3>
+        <ul>
+            <li><strong>2026年5月4日</strong>：K3 Works開業予定</li>
+            <li><strong>2026年7月31日</strong>：現在の会社より退職予定</li>
+            <li><strong>2026年8月</strong>：完全独立稼働開始</li>
+        </ul>
+    </section>
+
+    <!-- ブログ・動画セクション -->
+    <section id="blog">
+        <h2>ブログ・動画で紹介</h2>
+        <p class="section-subtitle">機械設計の実務ノウハウ・AutoCAD操作の時短術・AutoLISPの活用事例を、note・YouTubeで発信しています。<br>設計の現場で培った経験を、そのまま使えるかたちでお届けします。</p>
+
+        <!-- プラットフォームリンク -->
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+            <a href="https://note.com/k3works" target="_blank" rel="noopener noreferrer"
+               style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #41c9b4; color: #fff; font-weight: bold; padding: 20px 36px; border-radius: 8px; text-decoration: none; font-size: 16px; min-width: 180px; text-align: center;">
+                <span style="font-size: 28px;">📝</span>
+                note を読む
+            </a>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #e0e0e0; color: #888; font-weight: bold; padding: 20px 36px; border-radius: 8px; font-size: 16px; min-width: 180px; text-align: center; cursor: default;">
+                <span style="font-size: 28px;">🎥</span>
+                YouTube<br><span style="font-size: 12px; font-weight: normal;">準備中</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #e0e0e0; color: #888; font-weight: bold; padding: 20px 36px; border-radius: 8px; font-size: 16px; min-width: 180px; text-align: center; cursor: default;">
+                <span style="font-size: 28px;">🔧</span>
+                LISP販売<br><span style="font-size: 12px; font-weight: normal;">準備中</span>
+            </div>
+        </div>
+
+        <!-- LISPバナー -->
+        <div class="lisp-banner">
+            <p>🔧 作業効率を上げる <strong>AutoLISPも開発しています</strong>。AutoCADの繰り返し作業を自動化・時短できます。</p>
+            <a href="#contact" class="cta-lisp">無料体験はこちら</a>
+        </div>
+    </section>
+
+    <!-- 料金 -->
+    <section>
+        <h2>料金について</h2>
+        <p class="section-subtitle">案件内容に応じて個別にお見積り</p>
+        
+        <div style="background-color: #dfe5ed; padding: 20px 24px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #1a7a3e;">
+            <p style="font-size: 18px; margin: 10px 0;"><strong>時間単価</strong>：3,000円〜（内容により変動）</p>
+            <p style="font-size: 14px; color: #666; margin: 10px 0;">※案件内容・作業範囲・難易度に応じて調整いたします</p>
+        </div>
+
+        <h3 style="color: #002d5a; margin-top: 24px;">契約形態</h3>
+        <ul>
+            <li>業務委託契約</li>
+            <li>継続案件・スポット案件いずれにも対応</li>
+            <li>必要に応じてNDA（秘密保持契約）締結対応可能</li>
+        </ul>
+    </section>
+
+    <!-- お問い合わせ③（フォーム） -->
+    <section id="contact">
+        <h2>設計支援のご相談・お見積り</h2>
+        <p class="section-subtitle" style="margin-bottom: 4px;">お気軽にご連絡ください。内容を確認後、2営業日以内にご連絡いたします。</p>
+        <p style="font-size: 14px; color: #5a7fa8; margin-top: 0;">※ 参考図書の共有でスムーズに対応。お問い合わせの結果にかかわらず、資料は対応後に削除します。</p>
+
+        <form id="contactForm" class="contact-form" novalidate>
+            <label>お名前<span class="form-required">*必須</span></label>
+            <input type="text" name="from_name" placeholder="K3 太郎" required>
+
+            <label>メールアドレス<span class="form-required">*必須</span></label>
+            <input type="email" name="from_email" placeholder="example@company.com" required>
+
+            <label>会社名・屋号</label>
+            <input type="text" name="company" placeholder="（任意）株式会社〇〇">
+
+            <label>お問い合わせ内容<span class="form-required">*必須</span></label>
+            <textarea name="message" placeholder="ご依頼内容・使用CAD・納期の目安などをご記入ください" required></textarea>
+
+            <button type="submit" class="cta-primary">図面修正・CAD外注のご相談はこちら（無料）</button>
+            <div id="formStatus" class="form-status"></div>
+        </form>
+
+        <div class="grid" style="margin-top: 32px;">
+            <div class="card">
+                <h3>🏢 会社概要</h3>
+                <p>屋号：K3 Works（ケースリーワークス）</p>
+                <p style="margin-top: 12px; font-size: 14px; color: #555;">
+                    代表：小池 郁夫　I<strong>k</strong>uo <strong>K</strong>oi<strong>k</strong>e<br>
+                    住所：〒305-0041　茨城県つくば市上広岡<br>
+                    E-mail：後報<br>
+                    TEL：後報
+                </p>
+            </div>
+            <div class="card">
+                <h3>✉ 対応時間・対応CAD</h3>
+                <p>平日 9:00〜18:00（目安）</p>
+                <p style="margin-top: 12px; font-size: 14px; color: #555;">※内容により柔軟に対応いたします</p>
+                <p style="margin-top: 12px; font-size: 14px; color: #555;">
+                    <strong>対応CAD：</strong>AutoCAD / Inventor / SolidWorks<br>
+                    <strong>対応業務：</strong>図面修正、3Dモデリング、設計補助<br>
+                    現場・加工を考慮した実務設計に対応
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>K3 Works</h4>
+                <p style="font-size: 14px; color: #bfdbfe;">機械設計・CAD支援を専門とする設計パートナー。設計・現場・加工の知見をもとに、実務に使える設計支援を提供します。</p>
+            </div>
+            <div>
+                <h4>サービス</h4>
+                <a href="#services">CAD支援</a>
+                <a href="#services">設計補助</a>
+                <a href="#blog">ブログ・動画</a>
+            </div>
+            <div>
+                <h4>コンテンツ</h4>
+                <a href="#blog">ブログ・動画</a>
+                <a href="https://note.com/k3works" target="_blank" rel="noopener noreferrer">note</a>
+            </div>
+            <div>
+                <h4>会社情報</h4>
+                <a href="#about">K3 について</a>
+                <a href="#about">事業タイムライン</a>
+                <a href="#contact">お問い合わせ</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 K3 Works. All rights reserved.</p>
+            <p>開業予定：2026年5月4日 | 現在の会社退職予定：2026年7月31日</p>
+        </div>
+    </footer>
+
+    <script>
+        // ハンバーガーメニュー
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+
+        // ナビリンクをクリックしたらメニューを閉じる
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // メニュー外クリックで閉じる
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav')) {
+                hamburgerBtn.classList.remove('open');
+                navLinks.classList.remove('open');
+            }
+        });
+
+        // スライドショー機能
+        let currentSlideIndex = 1;
+        const totalSlides = document.querySelectorAll('#slideshowContainer .slide').length;
+        let autoSlideInterval;
+        
+        // 合計スライド数を表示
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('#slideshowContainer .slide');
+            
+            // スライド番号の循環
+            if (index > slides.length) {
+                currentSlideIndex = 1;
+            } else if (index < 1) {
+                currentSlideIndex = slides.length;
+            } else {
+                currentSlideIndex = index;
+            }
+
+            // すべてのスライドを非表示にする
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // 現在のスライドを表示
+            slides[currentSlideIndex - 1].classList.add('active');
+            
+            // スライドカウンターを更新
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+        }
+
+        function changeSlide(index) {
+            showSlide(currentSlideIndex + index);
+            // ボタンをクリックした時は自動ローリングをリセット
+            resetAutoSlide();
+        }
+
+        function autoSlide() {
+            showSlide(currentSlideIndex + 1);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(autoSlide, 5000);
+        }
+
+        // 初期化：自動ローリング開始（5秒ごと）
+        resetAutoSlide();
+
+        // ページを離れるときのクリーンアップ
+        window.addEventListener('beforeunload', () => {
+            clearInterval(autoSlideInterval);
+        });
+
+        // EmailJS お問い合わせフォーム送信
+        // ※ YOUR_SERVICE_ID / YOUR_TEMPLATE_ID はEmailJSダッシュボードで確認してください
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!confirm('入力内容を送信してよろしいですか？')) return;
+            const btn = this.querySelector('button[type="submit"]');
+            const status = document.getElementById('formStatus');
+            btn.disabled = true;
+            btn.textContent = '送信中...';
+            status.className = 'form-status';
+
+            emailjs.sendForm('service_48yetxb', 'template_ocvgdcp', this)
+                .then(() => {
+                    status.className = 'form-status success';
+                    status.textContent = '送信しました。2営業日以内にご連絡いたします。';
+                    this.reset();
+                    btn.textContent = '図面修正・CAD外注のご相談はこちら（無料）';
+                    btn.disabled = false;
+                }, () => {
+                    status.className = 'form-status error';
+                    status.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+                    btn.textContent = '図面修正・CAD外注のご相談はこちら（無料）';
+                    btn.disabled = false;
+                });
+        });
+    </script>
+
+</body>
+</html>
+
