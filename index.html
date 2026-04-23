@@ -646,9 +646,11 @@
         .form-status.error { background-color: #f8d7da; color: #721c24; display: block; }
 
         /* CTAバナー（セクション間） */
+        .cta-banner-wrap { background-color: #ececf0; }
         .cta-banner {
             background: linear-gradient(135deg, #002d5a 0%, #1a4a7a 100%);
-            color: white; text-align: center; padding: 36px 20px;
+            color: white; text-align: center; padding: 36px 40px;
+            max-width: 1200px; margin: 0 auto;
         }
         .cta-banner h3 {
             font-size: 20px; margin-bottom: 8px;
@@ -664,7 +666,7 @@
         .studio-note .inner {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: #1a7a3e;
+            background: linear-gradient(135deg, #002d5a 0%, #1a4a7a 100%);
             color: white;
             padding: 44px 40px;
         }
@@ -940,8 +942,8 @@
     </section>
 
     <!-- サービス後CTA② -->
-    <div class="cta-banner">
-        <div style="max-width:700px; margin:0 auto;">
+    <div class="cta-banner-wrap">
+        <div class="cta-banner">
             <h3>AutoCAD / Inventor / SolidWorks 対応</h3>
             <p>図面修正・3Dモデリング・設計補助。現場・加工を考慮した実務設計に対応します。</p>
             <a href="#contact" class="cta-primary">図面修正・CAD外注のご相談はこちら（無料）</a>
