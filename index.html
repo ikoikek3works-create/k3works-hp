@@ -555,13 +555,6 @@
             color: #999;
         }
         
-        @media (max-width: 768px) {
-            .k3-grid { grid-template-columns: 1fr; }
-            .studio-note .sn-main { font-size: 20px; }
-            .studio-note .sn-main .num { font-size: 26px; }
-            .studio-note .sn-sub { font-size: 16px; }
-        }
-
         /* スマートフォン */
         @media (max-width: 768px) {
             /* ハンバーガー表示 */
@@ -579,48 +572,73 @@
                 padding: 8px 16px 16px;
                 box-shadow: 0 6px 16px rgba(0,0,0,0.12);
                 gap: 2px;
+                z-index: 200;
             }
 
             .nav-links.open { display: flex; }
 
+            /* タップしやすいナビリンク */
             .nav-link {
-                padding: 14px 16px !important;
+                padding: 16px !important;
                 border-bottom: 1px solid #f0f0f0;
-                font-size: 15px !important;
+                font-size: 16px !important;
             }
 
             .nav-link:last-child { border-bottom: none; }
 
             /* ヒーロー */
-            .hero { padding: 24px 20px; min-height: 320px; align-items: flex-end; justify-content: flex-start; }
-            .hero h1 { font-size: 22px; }
-            .hero .tagline { font-size: 16px; }
-            .hero .subtitle { font-size: 14px; }
+            .hero { padding: 28px 20px; min-height: 300px; align-items: flex-end; }
+            .hero h1 { font-size: 22px; line-height: 1.4; }
+            .hero .tagline { font-size: 16px; line-height: 1.6; }
+            .hero .subtitle { font-size: 15px; }
+            /* ヒーローボタン：全幅で折り返し防止 */
+            .hero .cta-primary { display: block; text-align: center; padding: 16px 12px; }
+
+            /* スタジオノート */
+            .studio-note { padding: 0; }
+            .studio-note .inner { padding: 28px 20px; }
+            .studio-note .sn-main { font-size: 20px; }
+            .studio-note .sn-main .num { font-size: 26px; }
+            .studio-note .sn-sub { font-size: 16px; }
+
+            /* CTAバナー */
+            .cta-banner { padding: 28px 20px; }
 
             /* セクション */
             section { padding: 28px 16px; }
-            h2 { font-size: 24px; }
-            .section-subtitle { font-size: 15px; }
+            h2 { font-size: 24px; line-height: 1.3; }
+            h3 { font-size: 18px; }
+            .section-subtitle { font-size: 15px; line-height: 1.7; }
+
+            /* 本文・リスト（60代向けに行間広め） */
+            section p { font-size: 15px; line-height: 1.85; }
+            section ul li { font-size: 15px; line-height: 1.85; }
+            .card p { font-size: 15px; line-height: 1.85; }
+
+            /* K3カード */
+            .k3-grid { grid-template-columns: 1fr; }
 
             /* グリッド：1列 */
             .grid { grid-template-columns: 1fr; gap: 12px; }
 
+            /* フォーム（iOSのズームを防ぐ） */
+            .contact-form input,
+            .contact-form textarea { font-size: 16px; padding: 14px; }
+
             /* フッター：1列 */
             footer { padding: 28px 16px 16px; }
-            footer .footer-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+            footer .footer-content { grid-template-columns: 1fr; gap: 20px; }
         }
 
         /* 小型スマートフォン */
         @media (max-width: 480px) {
-            .hero h1 { font-size: 24px; line-height: 1.3; }
-            .hero .tagline { font-size: 14px; }
-            h2 { font-size: 22px; }
-            .cta-primary { padding: 14px 28px; font-size: 15px; }
+            .hero h1 { font-size: 20px; }
+            .hero .tagline { font-size: 15px; }
+            h2 { font-size: 21px; }
             .logo-image { height: 36px; }
             .slideshow-container { height: 220px; }
+            .studio-note .inner { padding: 24px 16px; }
+            .cta-banner { padding: 24px 16px; }
         }
 
         /* お問い合わせフォーム */
