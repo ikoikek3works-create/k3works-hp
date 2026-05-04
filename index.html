@@ -160,6 +160,7 @@
         .logo-image {
             height: 50px;
             width: auto;
+            max-width: 200px;
         }
         
         /* ファーストビュー */
@@ -559,6 +560,9 @@
         @media (max-width: 768px) {
             /* ハンバーガー表示 */
             .hamburger { display: flex; }
+            /* ロゴ：画像にテキスト含まれるため非表示 */
+            .logo-text { display: none; }
+            .logo-image { height: 44px; max-width: 180px; }
 
             .nav-links {
                 display: none;
@@ -635,7 +639,8 @@
             .hero h1 { font-size: 20px; }
             .hero .tagline { font-size: 15px; }
             h2 { font-size: 21px; }
-            .logo-image { height: 36px; }
+            .logo-image { height: 40px; max-width: 160px; }
+            .logo-text { display: none; }
             .slideshow-container { height: 220px; }
             .studio-note .inner { padding: 24px 16px; }
             .cta-banner { padding: 24px 16px; }
@@ -837,7 +842,7 @@
             </div>
         </div>
         <p style="text-align: center; margin-top: 24px; font-size: 18px; color: #002d5a; font-weight: 600;">
-            K3 Worksは、これらの課題を「設計パートナー」として解決します.</p>
+            K3 Worksは、これらの課題を「設計パートナー」として解決します。</p>
     </section>
 
     <!-- 解決策 -->
