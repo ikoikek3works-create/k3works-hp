@@ -162,14 +162,15 @@ select option { background: #2a2a2a; }
 .field-label { font-size: 13px; color: #888; min-width: 68px; flex-shrink: 0; }
 .field-unit { color: #666; font-size: 13px; flex-shrink: 0; }
 
-/* プラットフォーム */
-.platform-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* 割引 */
+.discount-type {
+  display: flex;
   gap: 8px;
+  margin-bottom: 8px;
 }
-.platform-btn {
-  padding: 11px;
+.discount-type button {
+  flex: 1;
+  padding: 9px;
   border: 1.5px solid #333;
   border-radius: 8px;
   background: #2a2a2a;
@@ -177,15 +178,12 @@ select option { background: #2a2a2a; }
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  text-align: center;
-  line-height: 1.5;
 }
-.platform-btn.active {
+.discount-type button.active {
   border-color: #00c853;
   background: #0a2a14;
   color: #00c853;
 }
-.fee-note { font-size: 12px; color: #666; margin-top: 8px; text-align: center; }
 
 /* 結果 */
 .result-grid {
@@ -354,7 +352,7 @@ details[open] summary::after { content: '▲'; }
 <!-- モード切替 -->
 <div class="mode">
   <button class="active" onclick="setMode('book',this)">📚 本・CD・ゲーム</button>
-  <button onclick="setMode('goods',this)">📦 家電・雑貨</button>
+  <button onclick="setMode('goods',this)">📦 セット本・家電・雑貨</button>
 </div>
 
 <!-- タブ -->
@@ -370,16 +368,14 @@ details[open] summary::after { content: '▲'; }
 
   <div class="container">
 
-    <!-- プラットフォーム -->
+    <!-- 手数料 -->
     <div class="section">
-      <div class="section-title">販売プラットフォーム</div>
-      <div class="platform-grid">
-        <div class="platform-btn" onclick="setPlatform('amazon',this)">Amazon<br><small>10%</small></div>
-        <div class="platform-btn active" onclick="setPlatform('mercari',this)">メルカリ<br><small>10%</small></div>
-        <div class="platform-btn" onclick="setPlatform('yahoo',this)">ヤフオク<br><small>10%</small></div>
-        <div class="platform-btn" onclick="setPlatform('rakuma',this)">ラクマ<br><small>6%</small></div>
+      <div class="section-title">販売手数料</div>
+      <div class="field-row">
+        <span class="field-label">手数料率</span>
+        <input type="number" id="feeRateInput" value="10" min="0" max="100" step="0.1" inputmode="decimal" oninput="calc()">
+        <span class="field-unit">%</span>
       </div>
-      <div class="fee-note" id="feeNote">手数料：10%（メルカリ）</div>
     </div>
 
     <!-- 原価 -->
@@ -404,6 +400,20 @@ details[open] summary::after { content: '▲'; }
       <div class="field-row">
         <span class="field-label">販売価格</span>
         <input type="number" id="sellPrice" placeholder="例: 1500" min="0" inputmode="numeric" oninput="calc()">
+        <span class="field-unit">円</span>
+      </div>
+      <div class="field-row">
+        <span class="field-label">割引</span>
+        <div class="discount-type">
+          <button id="discPct" class="active" onclick="setDiscType('pct',this)">％引き</button>
+          <button id="discYen" onclick="setDiscType('yen',this)">円引き</button>
+        </div>
+        <input type="number" id="discVal" placeholder="0" min="0" inputmode="decimal" oninput="calc()" style="max-width:90px">
+        <span class="field-unit" id="discUnit">%</span>
+      </div>
+      <div class="field-row">
+        <span class="field-label">実質価格</span>
+        <span id="effectiveSell" style="font-size:15px;font-weight:700;color:#00c853;">—</span>
         <span class="field-unit">円</span>
       </div>
       <div class="field-row">
@@ -442,6 +452,7 @@ details[open] summary::after { content: '▲'; }
     <!-- 内訳 -->
     <div class="breakdown">
       <div class="brk-row"><span>販売価格</span><span id="brkSell">—</span></div>
+      <div class="brk-row" id="brkDiscRow" style="display:none"><span>割引</span><span id="brkDisc">—</span></div>
       <div class="brk-row"><span>手数料</span><span id="brkFee">—</span></div>
       <div class="brk-row"><span>配送料</span><span id="brkShip">—</span></div>
       <div class="brk-row"><span>仕入れ合計</span><span id="brkCost">—</span></div>
@@ -496,17 +507,9 @@ details[open] summary::after { content: '▲'; }
 </div>
 
 <script>
-  let currentFeeRate = 10;
   let currentMode = 'book';
-  let currentPlatform = 'メルカリ';
+  let discType = 'pct';
   let db;
-
-  const platforms = {
-    amazon:  { name: 'Amazon',  fee: 10 },
-    mercari: { name: 'メルカリ', fee: 10 },
-    yahoo:   { name: 'ヤフオク', fee: 10 },
-    rakuma:  { name: 'ラクマ',   fee: 6  }
-  };
 
   const modeDefaults = {
     book:  { rateGo: 25, rateWarn: 15, profitGo: 800, profitMin: 300,  shipping: '210' },
@@ -544,14 +547,21 @@ details[open] summary::after { content: '▲'; }
     calc();
   }
 
-  // プラットフォーム
-  function setPlatform(key, btn) {
-    document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+  // 割引タイプ切替
+  function setDiscType(type, btn) {
+    discType = type;
+    document.querySelectorAll('.discount-type button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentFeeRate = platforms[key].fee;
-    currentPlatform = platforms[key].name;
-    document.getElementById('feeNote').textContent = `手数料：${currentFeeRate}%（${currentPlatform}）`;
+    document.getElementById('discUnit').textContent = type === 'pct' ? '%' : '円';
     calc();
+  }
+
+  // 実質販売価格（割引後）
+  function getEffectiveSell(sell) {
+    const dv = parseFloat(document.getElementById('discVal').value) || 0;
+    if (dv === 0) return sell;
+    if (discType === 'pct') return sell * (1 - dv / 100);
+    return sell - dv;
   }
 
   // 配送料
@@ -625,15 +635,27 @@ details[open] summary::after { content: '▲'; }
   // 計算
   function calc() {
     const cost = getCostTotal();
-    const sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+    const sellRaw = parseFloat(document.getElementById('sellPrice').value) || 0;
     const ship = getShipping();
+    const feeRate = parseFloat(document.getElementById('feeRateInput').value) || 0;
 
-    if (sell === 0) { clearResult(); return; }
+    if (sellRaw === 0) { clearResult(); return; }
 
-    const fee = sell * (currentFeeRate / 100);
+    const sell = getEffectiveSell(sellRaw);
+    const discount = sellRaw - sell;
+    const fee = sell * (feeRate / 100);
     const totalCost = cost + fee + ship;
     const profit = sell - totalCost;
     const margin = (profit / sell) * 100;
+
+    // 実質価格表示
+    const effEl = document.getElementById('effectiveSell');
+    if (discount > 0) {
+      effEl.textContent = fmt(sell);
+      effEl.style.display = 'inline';
+    } else {
+      effEl.textContent = '—';
+    }
 
     const pEl = document.getElementById('profitVal');
     pEl.textContent = fmt(profit) + ' 円';
@@ -643,7 +665,14 @@ details[open] summary::after { content: '▲'; }
     mEl.textContent = margin.toFixed(1) + ' %';
     mEl.className = 'value ' + (margin >= 0 ? 'pos' : 'neg');
 
-    document.getElementById('brkSell').textContent  = fmt(sell) + ' 円';
+    document.getElementById('brkSell').textContent  = fmt(sellRaw) + ' 円';
+    const discRow = document.getElementById('brkDiscRow');
+    if (discount > 0) {
+      discRow.style.display = 'flex';
+      document.getElementById('brkDisc').textContent = '−' + fmt(discount) + ' 円';
+    } else {
+      discRow.style.display = 'none';
+    }
     document.getElementById('brkFee').textContent   = '−' + fmt(fee) + ' 円';
     document.getElementById('brkShip').textContent  = '−' + fmt(ship) + ' 円';
     document.getElementById('brkCost').textContent  = '−' + fmt(cost) + ' 円';
@@ -662,7 +691,7 @@ details[open] summary::after { content: '▲'; }
         : `🔴 NG　¥${fmt(profit)}（${margin.toFixed(1)}%）`;
     }
 
-    return { cost, sell, fee, ship, totalCost, profit, margin, color };
+    return { cost, sell, sellRaw, discount, fee, ship, feeRate, totalCost, profit, margin, color };
   }
 
   function clearResult() {
@@ -687,8 +716,8 @@ details[open] summary::after { content: '▲'; }
     const record = {
       date:      new Date().toISOString(),
       name:      '',
-      mode:      currentMode === 'book' ? '本・CD・ゲーム' : '家電・雑貨',
-      platform:  currentPlatform,
+      mode:      currentMode === 'book' ? '本・CD・ゲーム' : 'セット本・家電・雑貨',
+      platform:  `手数料${r.feeRate}%`,
       cost:      Math.round(r.cost),
       sell:      Math.round(r.sell),
       fee:       Math.round(r.fee),
@@ -716,8 +745,11 @@ details[open] summary::after { content: '▲'; }
     list.querySelector('input').addEventListener('input', updateCostTotal);
     document.getElementById('totalCost').textContent = '0 円';
     document.getElementById('sellPrice').value = '';
+    document.getElementById('discVal').value = '';
+    document.getElementById('feeRateInput').value = '10';
     document.getElementById('shippingSelect').value = modeDefaults[currentMode].shipping;
     document.getElementById('customShipRow').style.display = 'none';
+    document.getElementById('effectiveSell').textContent = '—';
     clearResult();
   }
 
