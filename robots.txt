@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://k3works.jp/sitemap.xml
+Disallow: /sedori_calc.html
+Disallow: /assets/images/*.pdf
+Disallow: /assets/images/preview/
+Sitemap: https://k3worksdesign.com/sitemap.xml
