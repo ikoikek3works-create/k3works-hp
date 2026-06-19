@@ -1031,8 +1031,8 @@
 
         @media (max-width: 768px) {
             .scroll-assist {
-                right: 12px;
-                bottom: 14px;
+                right: max(28px, calc(env(safe-area-inset-right) + 24px));
+                bottom: max(18px, calc(env(safe-area-inset-bottom) + 14px));
             }
 
             .scroll-assist button {
@@ -1063,6 +1063,8 @@
             border-radius: 8px;
             padding: 18px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 0;
+            overflow: hidden;
         }
 
         .contact-guide-item h3 {
@@ -1071,12 +1073,15 @@
             margin-bottom: 8px;
             border-left: none;
             padding-left: 0;
+            overflow-wrap: anywhere;
         }
 
         .contact-guide-item p {
             color: #555;
             font-size: 14px;
             line-height: 1.75;
+            overflow-wrap: anywhere;
+            word-break: normal;
         }
 
         @media (max-width: 768px) {
