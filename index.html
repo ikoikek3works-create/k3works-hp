@@ -1112,12 +1112,21 @@
         }
 
         .platform-logo-note {
-            color: #111;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: #111;
+            color: #fff;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 31px;
+            font-size: 27px;
             font-weight: 700;
-            letter-spacing: -1.8px;
             line-height: 1;
+        }
+
+        .platform-logo-note svg {
+            width: 22px;
+            height: 22px;
+            display: block;
         }
 
         .platform-logo-youtube svg {
@@ -1512,7 +1521,11 @@
         <!-- プラットフォームリンク -->
         <div class="platform-links" aria-label="K3 Worksの外部リンク">
             <a class="platform-card platform-card-note" href="https://note.com/k3works" target="_blank" rel="noopener noreferrer" aria-label="K3 Worksのnoteを開く">
-                <span class="platform-logo platform-logo-note" aria-hidden="true">note</span>
+                <span class="platform-logo platform-logo-note" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img" focusable="false" aria-hidden="true">
+                        <path fill="currentColor" d="M4 18V6h4v1.4c1.2-1.1 2.7-1.8 4.5-1.8 3.5 0 5.5 2 5.5 5.8V18h-4v-6.1c0-1.8-.8-2.7-2.5-2.7-1.7 0-3.5 1.2-3.5 3.2V18H4Z"/>
+                    </svg>
+                </span>
                 <span>note を読む</span>
             </a>
             <a class="platform-card platform-card-youtube" href="https://www.youtube.com/@K3Works-k3w" target="_blank" rel="noopener noreferrer" aria-label="K3 WorksのYouTubeチャンネルを開く">
