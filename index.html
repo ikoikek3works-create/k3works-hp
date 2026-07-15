@@ -1044,6 +1044,100 @@
         }
         .cta-lisp:hover { background-color: #156633; }
 
+        .platform-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .platform-card {
+            width: 200px;
+            min-height: 145px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .platform-card:hover,
+        .platform-card:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+            outline: none;
+        }
+
+        .platform-card-note {
+            background: #fff;
+            color: #111;
+            border-color: #d6e9e6;
+        }
+
+        .platform-card-note:hover,
+        .platform-card-note:focus {
+            border-color: #41c9b4;
+        }
+
+        .platform-card-youtube {
+            background: #fff;
+            color: #212121;
+            border-color: #f0c4c4;
+        }
+
+        .platform-card-youtube:hover,
+        .platform-card-youtube:focus {
+            border-color: #ff0000;
+        }
+
+        .platform-card-lisp {
+            background-color: #1a7a3e;
+            color: #fff;
+        }
+
+        .platform-logo {
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-logo-note {
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 31px;
+            font-weight: 700;
+            letter-spacing: -1.8px;
+            line-height: 1;
+        }
+
+        .platform-logo-youtube svg {
+            width: 48px;
+            height: auto;
+            display: block;
+        }
+
+        .platform-logo-tool {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .platform-subtext {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
         .scroll-assist {
             position: fixed;
             right: 18px;
@@ -1416,21 +1510,23 @@
         <p class="section-subtitle">機械設計の実務ノウハウ・AutoCAD操作の時短術・AutoLISPの活用事例を、note・YouTubeで発信しています。<br>設計の現場で培った経験を、そのまま使えるかたちでお届けします。</p>
 
         <!-- プラットフォームリンク -->
-        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
-            <a href="https://note.com/k3works" target="_blank" rel="noopener noreferrer"
-               style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #bfa36a; color: #fff; font-weight: bold; padding: 20px 16px; border-radius: 8px; text-decoration: none; font-size: 16px; width: 200px; text-align: center;">
-                <span style="font-size: 28px;">📝</span>
-                note を読む
+        <div class="platform-links" aria-label="K3 Worksの外部リンク">
+            <a class="platform-card platform-card-note" href="https://note.com/k3works" target="_blank" rel="noopener noreferrer" aria-label="K3 Worksのnoteを開く">
+                <span class="platform-logo platform-logo-note" aria-hidden="true">note</span>
+                <span>note を読む</span>
             </a>
-            <a href="https://www.youtube.com/@K3Works-k3w" target="_blank" rel="noopener noreferrer"
-               style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #b03a3a; color: #fff; font-weight: bold; padding: 20px 16px; border-radius: 8px; text-decoration: none; font-size: 16px; width: 200px; text-align: center;">
-                <span style="font-size: 28px;">🎥</span>
-                YouTubeを見る
+            <a class="platform-card platform-card-youtube" href="https://www.youtube.com/@K3Works-k3w" target="_blank" rel="noopener noreferrer" aria-label="K3 WorksのYouTubeチャンネルを開く">
+                <span class="platform-logo platform-logo-youtube" aria-hidden="true">
+                    <svg viewBox="0 0 29 20" role="img" focusable="false" aria-hidden="true">
+                        <path fill="#FF0000" d="M27.972 3.123A3.578 3.578 0 0 0 25.456.586C23.236 0 14.34 0 14.34 0S5.444 0 3.224.586A3.578 3.578 0 0 0 .708 3.123C.12 5.358.12 10.022.12 10.022s0 4.664.588 6.9a3.578 3.578 0 0 0 2.516 2.536c2.22.586 11.116.586 11.116.586s8.896 0 11.116-.586a3.578 3.578 0 0 0 2.516-2.537c.588-2.235.588-6.899.588-6.899s0-4.664-.588-6.899Z"/>
+                        <path fill="#fff" d="m11.488 14.286 7.41-4.264-7.41-4.264v8.528Z"/>
+                    </svg>
+                </span>
+                <span>YouTubeを見る</span>
             </a>
-            <a href="https://k3works.booth.pm/items/8269961" target="_blank" rel="noopener noreferrer"
-               style="display: flex; flex-direction: column; align-items: center; gap: 8px; background-color: #1a7a3e; color: #fff; font-weight: bold; padding: 20px 16px; border-radius: 8px; text-decoration: none; font-size: 16px; width: 200px; text-align: center;">
-                <span style="font-size: 28px;">🔧</span>
-                AutoLISP<br><span style="font-size: 12px; font-weight: normal;">購入・無料体験はこちら</span>
+            <a class="platform-card platform-card-lisp" href="https://k3works.booth.pm/items/8269961" target="_blank" rel="noopener noreferrer" aria-label="AutoLISPツールの購入・無料体験ページを開く">
+                <span class="platform-logo platform-logo-tool" aria-hidden="true">🔧</span>
+                <span>AutoLISP<span class="platform-subtext">購入・無料体験はこちら</span></span>
             </a>
         </div>
     </section>
